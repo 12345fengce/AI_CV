@@ -89,6 +89,7 @@ def draw(coordinates, img_path:str, net:str):
         cv2.imshow("{}".format(net), img)
         cv2.waitKey(0)
         cv2.destroyAllWindows()
+        
 
 
 
