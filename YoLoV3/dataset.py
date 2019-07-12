@@ -1,7 +1,6 @@
 # -*-coding:utf-8-*-
-import math
 import torch
-import prior
+import utils
 import numpy as np
 import PIL.Image as Image
 import torch.utils.data as data
@@ -39,12 +38,6 @@ class PreProccess:
             f.write("\n")
         f.close()
 
-
-def one_hot(cls_max, cls_num):
-    label = np.zeros((cls_max))
-    label[cls_num] = 1
-    return label
-
     
 class MyData(data.Dataset):
     """transform image to Tensor(C, H, W)
@@ -67,22 +60,8 @@ class MyData(data.Dataset):
         img = Image.open(img_path)
         W, H = img.size
         img = tf.ToTensor()(img)
-        label = {}
-        data = np.array(data, dtype=np.float)
-        data = np.array(np.split(data, len(data)//5))
-        for size, item in prior.prior_boxes.items():
-            label[size] = np.zeros(shape=(size, size, 3, 7))  # label[size]: shape=(w, h, 3, 5+cls_num)
-            for box in data:
-                cls, x, y, w, h = box
-                (x_offset, x_index), (y_offset, y_index) = math.modf(x*size/W), math.modf(y*size/H)
-                for i, anchor in enumerate(item):
-                    w_offset, h_offset = np.log(w/anchor[0]), np.log(h/anchor[1])
-                    inter_area = min(w, anchor[0])*min(h, anchor[1])
-                    union_area = w*h+prior.prior_areas[size][i]-inter_area
-                    iou = inter_area/union_area
-                    cls_num = one_hot(2, cls.astype(int)).astype(int)
-                    label[size][int(x_index), int(y_index), i] = np.array([iou, x_offset, y_offset, w_offset, h_offset, cls_num[0], cls_num[1]])
-        return torch.Tensor(label[13]), torch.Tensor(label[26]), torch.Tensor(label[52]), img
+        label_13, label_26, label_52 = utils.load(data, W)
+        return torch.Tensor(label_13), torch.Tensor(label_26), torch.Tensor(label_52), img
 
 
 # if __name__ == "__main__":
