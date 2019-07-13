@@ -1,11 +1,14 @@
 # -*-coding:utf-8-*-
-import os
+import os, sys
 import test
 import utils
 import trainer 
 
 if __name__ == "__main__":
-    MODE = input("please Keyboard input 0 or 1:\n0 to train\n1 to test")
+    """choose MODE:
+        "0": train  model.train()
+        "1": test    model.eval()"""
+    MODE = input("0 to train\n1 to test\nplease Keyboard input model:")
     if MODE == "0":
         save_path = "F:/Project/Code/YoLoV3/yolo_net.pth"
         data_path = "G:/Yolo_train"

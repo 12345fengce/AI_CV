@@ -9,6 +9,10 @@ import torch.utils.data as data
 
 
 class MyTrainer:
+    """set net, set train_data, set optimizer, set loss
+        translate out(N, C, H, W) to (N, W, H, 3, 5+cls)  
+        [iou, x_offset, y_offset, w_offset, h_offset, cls:one_hot]
+        optimize paramters of YoLoNet"""
     def __init__(self, save_path, data_path):
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         self.save_path = save_path
@@ -26,9 +30,9 @@ class MyTrainer:
             for i, (label_13, label_26, label_52, img) in enumerate(self.train):
                 out_13, out_26, out_52 = self.net(img.to(self.device))
                 label_13, label_26, label_52 = label_13.to(self.device), label_26.to(self.device), label_52.to(self.device)
-                loss_13 = self.transform(out_13, label_13)
-                loss_26 = self.transform(out_26, label_26)
-                loss_52 = self.transform(out_52, label_52)
+                loss_13 = self.translate(out_13, label_13)
+                loss_26 = self.translate(out_26, label_26)
+                loss_52 = self.translate(out_52, label_52)
                 loss = loss_13+loss_26+loss_52
                 self.opt.zero_grad()
                 loss.backward()
@@ -37,10 +41,7 @@ class MyTrainer:
             if count%10 == 0:
                 print("[epoche] - {} - loss_13:{} + loss_26:{} + loss_52:{} = Loss:{}".format(count, loss_13, loss_26, loss_52, loss))
                 torch.save(self.net, self.save_path)
-    def transform(self, out, label, α=0.9):
-        """out: (N, C, H, W)
-            label: (N, W, H, 3, 5+cls_num)
-            [iou, x_offset, y_offset, w_offset, h_offset, cls:one_hot]"""
+    def translate(self, out, label, α=0.9):
         out = out.transpose(1, -1)
         out = out.reshape(out.size(0), out.size(1), out.size(2), 3, -1)
         mask_positive, mask_negative = label[..., 0] > 0, label[..., 0] == 0

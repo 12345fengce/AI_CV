@@ -60,7 +60,9 @@ class MyData(data.Dataset):
         img = Image.open(img_path)
         W, H = img.size
         img = tf.ToTensor()(img)
-        label_13, label_26, label_52 = utils.load(data, W)
+        data = np.array(data, dtype=np.float)
+        data = np.array(np.split(data, len(data)//5))
+        label_13, label_26, label_52 = utils.normalize(data, W)
         return torch.Tensor(label_13), torch.Tensor(label_26), torch.Tensor(label_52), img
 
 
