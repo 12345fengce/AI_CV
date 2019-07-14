@@ -23,7 +23,7 @@ class Trainer:
         # dataset
         self.data = data.DataLoader(dataset.MyData(data_path, img_size), batch_size=512, shuffle=True, num_workers=3)
         # optim
-        self.opt = optim.Adam(self.net.parameters())
+        self.opt = optim.SGD(self.net.parameters(), lr=0.0009)
         # loss
         self.loss_confi = nn.BCELoss()
         self.loss_offset = nn.MSELoss()

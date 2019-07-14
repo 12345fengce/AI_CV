@@ -51,7 +51,7 @@ def transform(offset, coordinates):
     """transform offset to original coordinates
         offset: numpy.ndarray
         coordinates: numpy.ndarray"""
-    side_len = coordinates[:, 2:3]-coordinates[:, :1]
+    side_len = coordinates[:, 2:3]-coordinates[:, :1]  # slice will keep ndim=2
     side_len = side_len[:, [0, 0, 0, 0]]
     offset = (-offset*side_len+coordinates).astype(int)  
     return offset
@@ -87,7 +87,7 @@ def draw(coordinates, img_path:str, net:str):
         for tangle in coordinates.astype(int):  
             cv2.rectangle(img,  (tangle[0], tangle[1]), (tangle[2], tangle[3]), (0, 0, 255), 1)
         cv2.imshow("{}".format(net), img)
-        cv2.waitKey(0)
+        cv2.waitKey(3000)
         cv2.destroyAllWindows()
         
 

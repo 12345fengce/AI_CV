@@ -15,11 +15,11 @@ class Test:
         o: o_net"""
     def __init__(self, p_path, r_path, o_path, img_file):
         self.img_file = img_file
-        self.image = Image.open(img_file)  # 用于抠图输入下一层
-        self.img = self.image.crop((0, 0, self.image.size[0], self.image.size[1])).convert("RGB")  # 复制图片用于图像金字塔
-        self.pnet = torch.load(p_path).cpu()
-        self.rnet = torch.load(r_path).cpu()
-        self.onet = torch.load(o_path).cpu()
+        self.image = Image.open(img_file)  # for croped
+        self.img = Image.open(img_file)  # for pyramid
+        self.pnet = torch.load(p_path).eval()
+        self.rnet = torch.load(r_path).eval()
+        self.onet = torch.load(o_path).eval()
     
     def pyramid(self, scal=0.707):
         "resize the image to smaller size"
@@ -34,41 +34,39 @@ class Test:
             filter with NMS
             crop image from original image for RNet's input
             draw"""
-        r_prior = []  # 收集PNet已知角坐标信息  R的先验
-        r_data = []  # 收集R网络输入数据
-        coordinates = []  # 作图坐标
-        count = 0  # 计数
+        r_prior = []  # collect RNet's prior
+        r_data = []  # collect RNet's input
+        coordinates = []  # collect coordinates for draw
+        count = 0  
         while min(self.img.size) > 12:
-            scal = 0.707**count  # 缩放比例，可以还原到原图  0.707为面积的一半
+            scal = 0.707**count  # 0.707 make the area half of origin image
             input = tf.ToTensor()(self.img).unsqueeze(dim=0)  
-            confi, offset = self.pnet(input)
-            W = offset.size(3)  # 取出图片的w值
-            confi = confi.permute(0, 2, 3, 1)
-            confi = confi.reshape(-1).data.numpy()  
-            offset = offset.permute(0, 2, 3, 1)  # 换轴，将四个通道数据组合到一起
-            offset = offset.reshape((-1, 4)).data.numpy()
-    
-            o_index = np.arange(len(offset)).reshape(-1, 1)  # 特征图W_out*H_out
-            offset, o_index, confi = offset[confi >= 0.9], o_index[confi >= 0.9], confi[confi >= 0.9]  
-           
-            y_index, x_index = divmod(o_index, W)  # 索引/w  在特征图中对应索引为（x，y）=（余数， 商）
-            x1, y1, x2, y2 = x_index*2/scal, y_index*2/scal, (x_index*2+12)/scal, (y_index*2+12)/scal  # 左上角=索引*步长  右上角=左上角+边长
-            p_prior = np.hstack((x1, y1, x2, y2))  # 将原图坐标组合为一个二维数组
+            confi, offset = self.pnet(input.cuda())
+            confi = confi.transpose(1, -1)
+            mask = confi[..., 0] >= 0.9
+            confi = confi[mask].data.cpu().numpy()  # filter confi
+
+            offset = offset.transpose(1, -1)
+            offset = offset[mask].data.cpu().numpy()  # filter offset
+            index = mask.nonzero().cpu().numpy()  # index 
+            x_index, y_index = index[:, 1:2], index[:, 2:3]
+            x1, y1, x2, y2 = x_index*2/scal, y_index*2/scal, (x_index*2+12)/scal, (y_index*2+12)/scal  # top_left*scal=index*stride  bottom_right*scal=top_left+12
+            p_prior = np.hstack(([x1, y1, x2, y2]))  # translate to numpy which ndim=2
             offset = utils.transform(offset, p_prior)  
             
-            boxes = np.hstack((offset, np.expand_dims(confi, axis=1)))  # 将偏移量与置信度结合，进行NMS
+            boxes = np.hstack((offset, confi))  # [[offset+confi]] for NMS
             boxes = utils.NMS(boxes, threshold=0.3, ismin=False) 
             coordinates.extend(boxes.tolist())
-            if boxes.shape[0] == 0:
+            if boxes.shape[0] == 0:  # for the case which can not get any box of confi >= 0.9
                 break
 
             data, prior = utils.crop_to_square(boxes, 24, self.image)
             r_prior.extend(prior)
             r_data.extend(data)
-            self.img = self.pyramid()  # 图像金字塔
+            self.img = self.pyramid()  
             count += 1  
 
-        r_prior = np.stack(r_prior, axis=0)  # 数据重组，重新装载为numpy和tensor
+        r_prior = np.stack(r_prior, axis=0)  
         r_data = torch.stack(r_data, dim=0)
         print("PNet create {} candidate items".format(r_data.size(0)))
         utils.draw(np.stack(coordinates, axis=0), self.img_file, "PNet")
@@ -82,9 +80,9 @@ class Test:
             crop image from original image for ONet's input
             draw"""
         data, prior = self.p()
-        confi, offset = self.rnet(data)  
-        confi = confi.data.numpy().flatten()
-        offset = offset.data.numpy()
+        confi, offset = self.rnet(data.cuda())  
+        confi = confi.data.cpu().numpy().flatten()
+        offset = offset.data.cpu().numpy()
 
         offset, prior, confi = offset[confi >= 0.99], prior[confi >= 0.99], confi[confi >= 0.99]  
     
@@ -110,11 +108,11 @@ class Test:
             filter with NMS
             draw"""
         data, prior = self.r()
-        confi, offset = self.onet(data)  
-        confi = confi.data.numpy().flatten()
-        offset = offset.data.numpy()
+        confi, offset = self.onet(data.cuda())  
+        confi = confi.data.cpu().numpy().flatten()
+        offset = offset.data.cpu().numpy()
 
-        offset, prior, confi = offset[confi >= 0.999], prior[confi >= 0.999], confi[confi >= 0.999] 
+        offset, prior, confi = offset[confi >= 0.9], prior[confi >= 0.9], confi[confi >= 0.9] 
 
         offset = utils.transform(offset, prior) 
 
@@ -131,7 +129,7 @@ if __name__ == "__main__":
     r_path = "f:/project/code/MTCNN/rnet.pth"
     o_path = "f:/project/code/MTCNN/onet.pth"
     i = 0
-    while i < 11:
+    while i < 21:
         img_file = "f:/project/code/MTCNN/{}.jpg".format(i)
         print("\ntest - {} :".format(i+1))
         print("**************************************************")

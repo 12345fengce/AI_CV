@@ -97,14 +97,14 @@ if __name__ == "__main__":
 #     pnet = PNet()
 #     rnet = RNet()
 #     onet = ONet()
-    net = torch.load("f:/project/code/mtcnn/onet.pth")
+    net = torch.load("f:/project/code/mtcnn/rnet.pth")
     import PIL.Image as Image
     import torchvision.transforms as tf 
     a = 0
     b = 1
     for i in range(10000):
         try:
-            img = Image.open("F:/Project/DataSet/celebre/48/positive/{}.jpg".format(i))
+            img = Image.open("F:/Project/DataSet/celebre/24/positive/{}.jpg".format(i))
             data = tf.ToTensor()(img).unsqueeze(dim=0)
             c, o = net(data.cuda())
             if c.item() < 0.1:
