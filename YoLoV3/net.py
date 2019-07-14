@@ -12,7 +12,7 @@ class Convolutional(nn.Module):
         super(Convolutional, self).__init__()
         self.layer = nn.Sequential(nn.Conv2d(in_channels, out_channels, kernel_size, stride, padding),
                                                 nn.BatchNorm2d(out_channels),
-                                                nn.LeakyReLU())
+                                                nn.LeakyReLU(0.1))
     def forward(self, x):
         return self.layer(x)
 
@@ -114,7 +114,7 @@ class YoLoNet(nn.Module):
         dn_1 = self.darknet1(x)  # size=52*52 To torch.cat()
         dn_2 = self.darknet2(dn_1)  # size=26*26 To torch.cat()
         dn_3 = self.darknet3(dn_2)  # size=13*13 To torch.cat()
-
+        
         s_1 = self.set1(dn_3)
         o_1 = self.out1(s_1)  # ConvSet→Out 1  
 

@@ -15,7 +15,7 @@ if __name__ == "__main__":
         trainer.MyTrainer(save_path, data_path).optimize()
     elif MODE == "1":
         net_path = "F:/Project/Code/YoLoV3/yolo_net.pth"
-        image_path = "G:/Yolo_train/img"
+        image_path = "G:/Yolo_train/img_test"
         for image in os.listdir(image_path):
             img_path = image_path+"/"+image
             boxes = test.Test(net_path, img_path).predict()
@@ -25,4 +25,4 @@ if __name__ == "__main__":
                 utils.draw(boxes, img_path)
             except:
                 continue
-            
+             
