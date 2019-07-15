@@ -86,7 +86,7 @@ class Test:
         confi = confi.data.numpy().flatten()
         offset = offset.data.numpy()
 
-        offset, prior, confi = offset[confi >= 0.99], prior[confi >= 0.99], confi[confi >= 0.99]  
+        offset, prior, confi = offset[confi >= 0.9], prior[confi >= 0.9], confi[confi >= 0.9]  
     
         offset = utils.transform(offset, prior)
         del prior, data
@@ -114,7 +114,7 @@ class Test:
         confi = confi.data.numpy().flatten()
         offset = offset.data.numpy()
 
-        offset, prior, confi = offset[confi >= 0.999], prior[confi >= 0.999], confi[confi >= 0.999] 
+        offset, prior, confi = offset[confi >= 0.9], prior[confi >= 0.9], confi[confi >= 0.9] 
 
         offset = utils.transform(offset, prior) 
 
@@ -130,7 +130,7 @@ if __name__ == "__main__":
     p_path = "f:/project/code/MTCNN/pnet.pth"
     r_path = "f:/project/code/MTCNN/rnet.pth"
     o_path = "f:/project/code/MTCNN/onet.pth"
-    i = 10
+    i = 0
     while i < 21:
         img_file = "f:/project/code/MTCNN/{}.jpg".format(i)
         print("\ntest - {} :".format(i+1))
