@@ -43,13 +43,12 @@ class ConvSet(nn.Module):
         super(ConvSet, self).__init__()
         self.pointwise = Convolutional(in_channels, out_channels, 1, 1)
         self.convolution = Convolutional(out_channels, in_channels, 3, 1, 1)
-        self.pointwise2 = Convolutional(in_channels, out_channels, 1, 1)
     def forward(self, x):
         out_p1 = self.pointwise(x)
         out_conv1 = self.convolution(out_p1)
         out_p2 = self.pointwise(out_conv1)
         out_conv2 = self.convolution(out_p2)
-        out_p3 = self.pointwise2(out_conv2)
+        out_p3 = self.pointwise(out_conv2)
         return out_p3
 
 
@@ -132,7 +131,7 @@ class YoLoNet(nn.Module):
 
 
 # if __name__ == "__main__":
-#     test = torch.Tensor(1, 3, 416, 416)
+#     test = torch.Tensor(1, 3, 608, 608)
 #     net = YoLoNet()
 #     x, y, z = net(test)
 #     print(x.size())

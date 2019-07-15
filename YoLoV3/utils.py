@@ -1,5 +1,5 @@
 # -*-coding:utf-8-*-
-import os
+import os, sys
 import cv2
 import math
 import torch
@@ -95,7 +95,7 @@ def parse(out, size):
         get original centre with index and offset
         get original side with offset and prior's side
         regroup them to a list has length (5+cls)"""
-    index = out[..., 0] > 0
+    index = torch.sigmoid(out[..., 0]) > 0.5
     index = index.nonzero()
     coordinates = []
     for idx in index:
@@ -131,7 +131,7 @@ def draw(boxes, path):
             cv2.rectangle(img, (x1, y1), (x2, y2), (0, 255, 0), 1)
             cv2.putText(img, "Dog", (x1, y1), cv2.FONT_HERSHEY_SIMPLEX, 1.2, (0, 255, 0), 3)
     cv2.imshow(path.split("/")[-1], img)
-    cv2.waitKey(0)
+    cv2.waitKey(3000)
     cv2.destroyAllWindows()
 
 
