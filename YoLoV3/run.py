@@ -16,12 +16,13 @@ if __name__ == "__main__":
     elif MODE == "1":
         net_path = "F:/Project/Code/YoLoV3/yolo_net.pth"
         image_path = "G:/Yolo_train/img"
-        for image in os.listdir(image_path):
+        for i, image in enumerate(os.listdir(image_path)):
             img_path = image_path+"/"+image
             boxes = test.Test(net_path, img_path).predict()
             try:
                 boxes = utils.NMS(boxes, threshold=0.3, ismin=False)
                 boxes = utils.NMS(boxes, threshold=0.3, ismin=True)
+                print("{}.jpg".format(i))
                 utils.draw(boxes, img_path)
             except:
                 continue

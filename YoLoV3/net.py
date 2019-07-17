@@ -8,7 +8,7 @@ class Convolutional(nn.Module):
         Conv2d Layer
         BN Layer
         Activate Layer"""
-    def __init__(self, in_channels, out_channels, kernel_size, stride, padding=0):
+    def __init__(self, in_channels, out_channels, kernel_size, stride, padding=0, bias=False):
         super(Convolutional, self).__init__()
         self.layer = nn.Sequential(nn.Conv2d(in_channels, out_channels, kernel_size, stride, padding),
                                                 nn.BatchNorm2d(out_channels),
@@ -100,15 +100,14 @@ class YoLoNet(nn.Module):
         self.set1 = ConvSet(1024, 512)
         self.out1 = nn.Sequential(Convolutional(512, 1024, 3, 1, 1),
                                                 nn.Conv2d(1024, 21, 1, 1))  # Out 1
-        self.up1 = UpSample(512, 512)
-        self.set2 = ConvSet(1024, 512)  # UpSample created double channels
-        self.out2 = nn.Sequential(Convolutional(512, 1024, 3, 1, 1),
-                                                nn.Conv2d(1024, 21, 1, 1))  # Out 2
-        self.up2 = UpSample(512, 256)  # UpSample created double channels
-        self.out3 = nn.Sequential(ConvSet(512, 256),
-                                                Convolutional(256, 512, 3, 1, 1),
-                                                nn.Conv2d(512, 21, 1, 1))  # Out 3
-
+        self.up1 = UpSample(512, 256)
+        self.set2 = ConvSet(768, 384)  # UpSample created double channels
+        self.out2 = nn.Sequential(Convolutional(384, 768, 3, 1, 1),
+                                                nn.Conv2d(768, 21, 1, 1))  # Out 2
+        self.up2 = UpSample(384, 192)  # UpSample created double channels
+        self.out3 = nn.Sequential(ConvSet(448, 224),
+                                                Convolutional(224, 448, 3, 1, 1),
+                                                nn.Conv2d(448, 21, 1, 1))  # Out 3
     def forward(self, x):
         dn_1 = self.darknet1(x)  # size=52*52 To torch.cat()
         dn_2 = self.darknet2(dn_1)  # size=26*26 To torch.cat()
@@ -121,22 +120,22 @@ class YoLoNet(nn.Module):
         c_1 = torch.cat((up_1, dn_2), dim=1)  # UpSample create double channels
 
         s_2 = self.set2(c_1)
-        o_2 = self.out2(s_2)  # ConvSet→Out 1
+        o_2 = self.out2(s_2)  # ConvSet→Out 2
 
         up_2 = self.up2(s_2)
         c_2 = torch.cat((up_2, dn_1), dim=1)  # UpSample create double channels
-
-        o_3 = self.out3(c_2)  # ConvSet→Out 1
+        
+        o_3 = self.out3(c_2)  # ConvSet→Out 3
         return o_1, o_2, o_3
 
 
-# if __name__ == "__main__":
-#     test = torch.Tensor(1, 3, 608, 608)
-#     net = YoLoNet()
-#     x, y, z = net(test)
-#     print(x.size())
-#     print(y.size())
-#     print(z.size())
+if __name__ == "__main__":
+    test = torch.Tensor(1, 3, 416, 416)
+    net = YoLoNet()
+    x, y, z = net(test)
+    print(x.size())
+    print(y.size())
+    print(z.size())
         
         
 

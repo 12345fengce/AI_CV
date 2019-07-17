@@ -89,20 +89,21 @@ def normalize(data, size=416):
     return label[13], label[26], label[52]
 
 
-def parse(out, size):
+def parse(out, size, threshold=0.3):
     """act on out from out 
         note index which grid's iou > 0
         get original centre with index and offset
         get original side with offset and prior's side
         regroup them to a list has length (5+cls)"""
-    index = torch.sigmoid(out[..., 0]) > 0.5
+    # torch.sigmoid_(out[..., 0])
+    index = out[..., 0] > threshold
     index = index.nonzero()
     coordinates = []
     for idx in index:
-        box = out[idx[0], idx[1], idx[-1]]  # get box of dim=1 with index of dim=3 from out: (W, H, 3, 5+cls)
+        box = out[idx[0], idx[1], idx[2], idx[-1]]  # get box of dim=1 with index of dim=4 from out: (N, W, H, 3, 5+cls)
         iou, x_offset, y_offset, w_offset, h_offset, *cls = box
         iou = iou.item()  # first step: iou 
-        x_offset, y_offset = x_offset+idx[0], y_offset+idx[1]  # second step: centre(x, y)
+        x_offset, y_offset = x_offset+idx[1], y_offset+idx[2]  # second step: centre(x, y)
         x, y = x_offset/(size/416), y_offset/(size/416)
         w_anchor, h_anchor = prior_boxes[size][idx[-1]]  # third step: w, h
         w, h = w_anchor*torch.exp(w_offset), h_anchor*torch.exp(h_offset)
@@ -123,11 +124,11 @@ def draw(boxes, path):
     for box in boxes:
         x1, y1, x2, y2, iou, cls = box
         if np.sum(cls) == 1 and np.argmax(cls) == 0:
-            print(np.argmax(cls), (x1+x2)/2, (y1+y2)/2, (x2-x1), (y2-y1))
+            print(iou, np.argmax(cls), (x1+x2)/2, (y1+y2)/2, (x2-x1), (y2-y1))
             cv2.rectangle(img, (x1, y1), (x2, y2), (0, 0, 255), 1)
             cv2.putText(img, "Cat", (x1, y1), cv2.FONT_HERSHEY_SIMPLEX, 1.2, (0, 0, 255), 3)
         elif np.sum(cls) == 1 and np.argmax(cls) == 1:
-            print(np.argmax(cls), (x1+x2)/2, (y1+y2)/2, (x2-x1), (y2-y1))
+            print(iou, np.argmax(cls), (x1+x2)/2, (y1+y2)/2, (x2-x1), (y2-y1))
             cv2.rectangle(img, (x1, y1), (x2, y2), (0, 255, 0), 1)
             cv2.putText(img, "Dog", (x1, y1), cv2.FONT_HERSHEY_SIMPLEX, 1.2, (0, 255, 0), 3)
     cv2.imshow(path.split("/")[-1], img)
