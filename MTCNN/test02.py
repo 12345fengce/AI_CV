@@ -112,13 +112,13 @@ class Test:
         confi = confi.data.cpu().numpy().flatten()
         offset = offset.data.cpu().numpy()
 
-        offset, prior, confi = offset[confi >= 0.9], prior[confi >= 0.9], confi[confi >= 0.9] 
+        offset, prior, confi = offset[confi >= 0.999], prior[confi >= 0.999], confi[confi >= 0.999] 
 
         offset = utils.transform(offset, prior) 
 
         boxes = np.hstack((offset, np.expand_dims(confi, axis=1)))  # 将偏移量与置信度结合，进行NMS
         boxes = utils.NMS(boxes, threshold=0.3, ismin=True)
-
+        print(boxes[..., -1])
         coordinates = boxes
         print("ONet create {} candidate items".format(boxes.shape[0]))
         utils.draw(np.stack(coordinates, axis=0), self.img_file, "ONet")

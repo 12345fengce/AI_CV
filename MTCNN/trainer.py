@@ -53,7 +53,7 @@ class Trainer:
                 loss.backward()
                 self.opt.step()
                 # 输出每轮损失，保存网络
-            print("Loss:{}".format(loss))
+            with torch.no_grad():
             epoche += 1
             if epoche % 10 == 0:
                 torch.save(self.net, self.save_path)

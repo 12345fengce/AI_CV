@@ -4,7 +4,6 @@ import utils
 import random
 import numpy as np
 import PIL.Image as Image
-from PIL import ImageFile
 
 
 def Clean(path_save):
@@ -22,6 +21,7 @@ def Clean(path_save):
             if not flag:
                 Clean(path_save+r"/"+file)
     print("Cleaning ... ... Clean Done!")
+
 
 def DataProcess(path_read, path_save, file):
     # 循环制作三个尺寸的图片
@@ -97,7 +97,7 @@ def DataProcess(path_read, path_save, file):
         n.close()
         print("size: {}*{} Saved Succeed!, total {} files".format(img_size, img_size, count))
 
-# 负样本补充
+
 def Negative(path_read, path_save):
     for img_size in [12, 24, 48]:
         count = 0
@@ -131,6 +131,55 @@ def Negative(path_read, path_save):
         print("size: {}*{} Saved Succeed!, total {} files".format(img_size, img_size, count))
 
 
+def Sign(path_read, path_save, file):
+    "make validation set with wilder face"
+    with open(file, "r") as f:
+        label = f.readlines()
+    for size in [48, 24, 12]:
+        positive_path = path_save+"/{}".format(size)+"/positive"
+        part_path = path_save+"/{}".format(size)+"/part"
+        for path in [positive_path, part_path]:
+            if not os.path.exists(path):
+                os.makedirs(path)
+        positive_label = open(positive_path+".txt", "w")
+        part_label = open(part_path+".txt", "w")
+        count = 0
+        for i, string in enumerate(label):
+            if ".jpg" in string:
+                img_path = path_read+"/"+string[:-1]
+                img = Image.open(img_path)
+            else:
+                lst = string.split()
+                if len(lst) < 2:
+                    continue
+                else:
+                    x, y, w, h, blur = [int(ele) for ele in lst[:5]]
+                    if int(blur) < 2 and w > 15 and h > 15:
+                        cx, cy = x+w/2, y+h/2
+                        cx, cy = random.uniform(cx-0.2*w, cx+0.2*w), random.uniform(cy-0.2*h, cy+0.2*h)
+                        w, h = random.uniform(0.7*w, 1.2*w), random.uniform(0.7*h, 1.2*h)
+                        m = max(w, h)
+                        x1, y1, x2, y2 = int(cx-m/2), int(cy-h/2), int(cx+m/2), int(cy+h/2)
+                        image = img.crop((x1, y1, x2, y2))
+                        image = image.resize((size, size))
+                        x1_offset, y1_offset, x2_offset, y2_offset = (x1-x)/m, (y1-y)/m, (x2-x-w)/m, (y2-y-h)/m
+                        inter_area = (min(x2, x+w)-max(x1, x))*(min(y2, y+h)-max(y1, y))
+                        union_area = w*h+(y2-y1)*(x2-x1)-inter_area
+                        iou = inter_area/union_area
+                        if iou > 0.65:
+                            image.save(positive_path+"/{}.jpg".format(count))
+                            positive_label.write("positive/{}.jpg {} {} {} {} {}\n".format(count, 1, x1_offset, y1_offset, x2_offset, y2_offset))
+                            count += 1
+                        elif iou < 0.5:
+                            image.save(part_path+"/{}.jpg".format(count))
+                            part_label.write("part/{}.jpg {} {} {} {} {}\n".format(count, 1.0, x1_offset, y1_offset, x2_offset, y2_offset))
+                            count += 1
+                        if count%10000 == 0:
+                            print("I am running, {}w done!!!".format(w/10000))
+        positive_label.close()
+        part_label.close()
+       
+ 
 # if __name__ == "__main__":
     # path_read = "F:/Python/DataSet/celebre/img_celeba"
     # path_read = "F:/Python/DataSet/celebre/img_negative"
@@ -145,3 +194,8 @@ def Negative(path_read, path_save):
 
     # 补充负样本
     # Negative(path_read, path_save)
+    
+    # path_read = "G:/Wider_face/WIDER_train/images"
+    # path_save = "G:/Mtcnn_train"
+    # file = "G:/Wider_face/wider_face_split/wider_face_train_bbx_gt.txt"
+    # Sign(path_read, path_save, file)
