@@ -18,6 +18,8 @@ class MyData(data.Dataset):
         # 将同一size图片，标签集中起来，放到两个列表里
         for dir in ["positive", "negative", "part"]:
             _path = os.path.join(path, str(img_size), dir)
+            if not os.path.exists(_path):
+                continue
             self.dataset.extend(os.listdir(_path))
             with open(_path+".txt", "r") as f:
                 self.targets.extend(f.readlines())
@@ -34,5 +36,10 @@ class MyData(data.Dataset):
         img = Image.open(img_path)
         data = tf.ToTensor()(img)-0.5
         return data, confi, offset
+
+
+
+            
+
 
 
