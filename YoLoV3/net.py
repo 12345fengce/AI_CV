@@ -10,7 +10,7 @@ class Convolutional(nn.Module):
         Activate Layer"""
     def __init__(self, in_channels, out_channels, kernel_size, stride, padding=0, bias=False):
         super(Convolutional, self).__init__()
-        self.layer = nn.Sequential(nn.Conv2d(in_channels, out_channels, kernel_size, stride, padding),
+        self.layer = nn.Sequential(nn.Conv2d(in_channels, out_channels, kernel_size, stride, padding, bias=bias),
                                                 nn.BatchNorm2d(out_channels),
                                                 nn.LeakyReLU(0.1))
     def forward(self, x):
@@ -41,15 +41,13 @@ class ConvSet(nn.Module):
         Convolutional 1*1 channels//2"""
     def __init__(self, in_channels, out_channels):
         super(ConvSet, self).__init__()
-        self.pointwise = Convolutional(in_channels, out_channels, 1, 1)
-        self.convolution = Convolutional(out_channels, in_channels, 3, 1, 1)
+        self.set = nn.Sequential(Convolutional(in_channels, out_channels, 1, 1),
+                                                Convolutional(out_channels, in_channels, 3, 1, 1),
+                                                Convolutional(in_channels, out_channels, 1, 1),
+                                                Convolutional(out_channels, in_channels, 3, 1, 1),
+                                                Convolutional(in_channels, out_channels, 1, 1))
     def forward(self, x):
-        out_p1 = self.pointwise(x)
-        out_conv1 = self.convolution(out_p1)
-        out_p2 = self.pointwise(out_conv1)
-        out_conv2 = self.convolution(out_p2)
-        out_p3 = self.pointwise(out_conv2)
-        return out_p3
+        return self.set(x)
 
 
 class UpSample(nn.Module):
@@ -110,6 +108,7 @@ class YoLoNet(nn.Module):
                                                 nn.Conv2d(448, 21, 1, 1))  # Out 3
     def forward(self, x):
         dn_1 = self.darknet1(x)  # size=52*52 To torch.cat()
+        
         dn_2 = self.darknet2(dn_1)  # size=26*26 To torch.cat()
         dn_3 = self.darknet3(dn_2)  # size=13*13 To torch.cat()
         
@@ -129,13 +128,13 @@ class YoLoNet(nn.Module):
         return o_1, o_2, o_3
 
 
-if __name__ == "__main__":
-    test = torch.Tensor(1, 3, 416, 416)
-    net = YoLoNet()
-    x, y, z = net(test)
-    print(x.size())
-    print(y.size())
-    print(z.size())
+# if __name__ == "__main__":
+#     test = torch.Tensor(1, 3, 416, 416)
+#     net = YoLoNet()
+#     x, y, z = net(test)
+#     print(x.size())
+#     print(y.size())
+#     print(z.size())
         
         
 

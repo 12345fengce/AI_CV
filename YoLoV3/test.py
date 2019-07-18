@@ -5,7 +5,6 @@ import utils
 import numpy as np
 import PIL.Image as Image
 import torchvision.transforms as tf 
-import darknet53
 
 class Test:
     def __init__(self, net_path, img_path):

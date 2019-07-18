@@ -6,7 +6,6 @@ import dataset
 import torch.nn as nn
 import torch.optim as optim
 import torch.utils.data as data
-import darknet53
 
 
 class MyTrainer:
@@ -20,9 +19,9 @@ class MyTrainer:
         if os.path.exists(save_path):
             self.net = torch.load(save_path)
         else:
-            self.net = darknet53.MainNet(2).to(self.device)
+            self.net = net.YoLoNet().to(self.device)
         self.net.train()
-        self.train_data = data.DataLoader(dataset.MyData(data_path), batch_size=1, shuffle=True)
+        self.train_data = data.DataLoader(dataset.MyData(data_path), batch_size=4, shuffle=True)
         self.opt = optim.Adam(self.net.parameters())
         # self.loss_confi = nn.BCEWithLogitsLoss(weight=None, size_average=False, reduce=True)
         # self.loss_centre = nn.BCEWithLogitsLoss(weight=None, size_average=False, reduce=True)

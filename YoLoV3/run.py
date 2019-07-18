@@ -11,11 +11,11 @@ if __name__ == "__main__":
     MODE = input("0 to train\n1 to test\nplease Keyboard input model:")
     if MODE == "0":
         save_path = "F:/Project/Code/YoLoV3/yolo_net.pth"
-        data_path = "G:/Yolo_train"
+        data_path = "G:/for_YOLO_V3"
         trainer.MyTrainer(save_path, data_path).optimize()
     elif MODE == "1":
         net_path = "F:/Project/Code/YoLoV3/yolo_net.pth"
-        image_path = "G:/Yolo_train/img"
+        image_path = "G:/for_YOLO_V3/train"
         for i, image in enumerate(os.listdir(image_path)):
             img_path = image_path+"/"+image
             boxes = test.Test(net_path, img_path).predict()
