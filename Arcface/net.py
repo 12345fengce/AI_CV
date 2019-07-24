@@ -8,9 +8,12 @@ import torch.nn.functional as F
 class Convolution(nn.Module):
     def __init__(self, in_channels, out_channels, kernel_size, stride, padding, bias=False):
         super(Convolution, self).__init__()
-        self.Convolution = nn.Sequential(nn.Conv2d(in_channels, out_channels, kernel_size, stride, padding, bias=False),
-                                                                nn.BatchNorm2d(out_channels),
-                                                                nn.PReLU())
+        self.Convolution = nn.Sequential(
+                                        nn.Conv2d(in_channels, out_channels, kernel_size, stride, padding, bias=False),
+                                        nn.BatchNorm2d(out_channels),
+                                        nn.PReLU()
+                                        )
+
     def forward(self, x):
         return self.Convolution(x)
 
@@ -18,21 +21,26 @@ class Convolution(nn.Module):
 class MyNet(nn.Module):
     def __init__(self):
         super(MyNet, self).__init__()
-        self.conv = nn.Sequential(Convolution(1, 32, 3, 1, 0),
-                                                    Convolution(32, 64, 3, 2, 1, 0),
-                                                    Convolution(64, 32, 1, 1, 0),
-                                                    Convolution(32, 32, 3, 1, 0),
-                                                    Convolution(32, 64, 1, 1, 0),
-                                                    Convolution(64, 128, 3, 2, 0),
-                                                    Convolution(128, 64, 1, 1, 0),
-                                                    Convolution(64, 64, 3, 1, 0),
-                                                    Convolution(64, 64, 3, 1, 0),
-                                                    Convolution(64, 128, 1, 1, 0))
-        self.linear = nn.Sequential(nn.Linear(in_features=128, out_features=64, bias=False),
-                                                    nn.BatchNorm1d(64),
-                                                    nn.PReLU())
+        self.conv = nn.Sequential(
+                                    Convolution(1, 32, 3, 1, 0),
+                                    Convolution(32, 64, 3, 2, 1),
+                                    Convolution(64, 32, 1, 1, 0),
+                                    Convolution(32, 32, 3, 1, 0),
+                                    Convolution(32, 64, 1, 1, 0),
+                                    Convolution(64, 128, 3, 2, 0),
+                                    Convolution(128, 64, 1, 1, 0),
+                                    Convolution(64, 64, 3, 1, 0),
+                                    Convolution(64, 64, 3, 1, 0),
+                                    Convolution(64, 128, 1, 1, 0)
+                                    )
+        self.linear = nn.Sequential(
+                                    nn.Linear(in_features=128, out_features=64, bias=False),
+                                    nn.BatchNorm1d(64),
+                                    nn.PReLU()
+                                    )
         self.features = nn.Linear(in_features=64, out_features=2, bias=False)  # margin
         self.outputs = nn.Linear(in_features=2, out_features=10, bias=False)  # softmax
+
     def forward(self, x):
         c = self.conv(x)
         c = torch.reshape(c, shape=(c.size(0), -1))
@@ -57,6 +65,7 @@ class CenterLoss(nn.Module):
         super(CenterLoss, self).__init__()
         self.cls = cls
         self.centre = nn.Parameter(torch.randn(cls, features))
+
     def forward(self, x, labels):
         centre = self.centre[labels]
         count = torch.histc(labels.float(), bins=self.cls, min=min(labels), max=max(labels))[labels]
@@ -79,6 +88,7 @@ class ArcLoss(nn.Module):
     def __init__(self, features):
         super(ArcLoss, self).__init__()
         self.W = nn.Parameter(torch.randn(features))
+
     def forward(self, X, alpha=0.1):
         x, w = torch.norm(X, dim=1), torch.norm(self.W, dim=0)
         cosa = torch.matmul(X, self.W)/(x*w)
