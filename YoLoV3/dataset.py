@@ -1,4 +1,5 @@
 # -*-coding:utf-8-*-
+import json
 import torch
 import utils
 import numpy as np
@@ -66,32 +67,15 @@ class MyData(data.Dataset):
         return torch.Tensor(label_13), torch.Tensor(label_26), torch.Tensor(label_52), img
 
 
-# if __name__ == "__main__":
-#     import cv2
-#     path = "G:/Yolo_train"
-#     label = "G:/Yolo_train/label.txt"
-#     with open(label) as f:
-#         target = f.readlines()
-#     for i in range(len(target)):
-#         img = target[i].split()[0]
-#         x, y, w, h = target[i].split()[2:6]
-#         img_path = path+"/"+img
-#         img = cv2.imread(img_path)
-#         x, y, w, h = int(float(x)), int(float(y)), int(float(w)), int(float(h))
-#         x1, y1 = x-w//2, y-h//2
-#         x2, y2 = x1+w, y1+h
-#         print(x1, y1, x2, y2)
-#         cv2.rectangle(img, (x1, y1), (x2, y2), (0, 0, 255), 1)
-#         cv2.imshow("img", img)
-#         cv2.waitKey(0)
-#         cv2.destroyAllWindows()
-
-
-    # label = "G:/Yolo_train/label.txt"
-    # path = "G:/Yolo_train/img"
-    # preproccess = PreProccess(label)
-    # preproccess.resize(path)      
-
-    # mydata = MyData("G:/Yolo_train")
-    # x, y, z, img = mydata[10]
-    # print(x.size())
+if __name__ == "__main__":
+    file = "G:/Coco2017/annotations/instances_train2017.json"
+    with open(file, "r") as file:
+        lst = json.load(file)
+    i = 0
+    for key, item in lst.items():
+        if ".jpg" in item:
+            print(key, item)
+            break
+        else:
+            continue
+        
