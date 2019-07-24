@@ -5,7 +5,8 @@ import trainer
 
 rnet = net.RNet()
 save_path = "F:/Project/Code/MTCNN/rnet.pth"
-data_path = "F:/Project/DataSet/celebre"
+train_path = "G:/for_Mtcnn/train"
+validation_path = "G:/for_MTCNN/validation"
 img_size = 24
 if __name__ == "__main__":
-    trainer.Trainer(rnet, data_path, save_path, img_size).train()
+    trainer.Trainer(rnet, train_path, validation_path, save_path, img_size).train()

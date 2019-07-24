@@ -93,26 +93,45 @@ class ONet(nn.Module):
 
         return y_1, y_2
 
-if __name__ == "__main__":
+class Regular(nn.Module):
+    """只对W参数进行惩罚，bias不进行惩罚
+        model: 网络
+        weight_decay: 衰减系数（加权）
+        p: 范数，默认L2"""
+    def __init__(self, model, weight_decay=0.01, p=2):
+        super(Regular, self).__init__()
+        self.model = model
+        self.weight_decay = weight_decay
+        self.p = p
+    def regular_loss(self):
+        regular_loss = 0
+        for param in self.model.parameters():
+            if len(param.size()) > 1:
+                regular_loss += torch.norm(param, self.p)
+        return regular_loss*self.weight_decay
+
+# if __name__ == "__main__":
 #     pnet = PNet()
 #     rnet = RNet()
-#     onet = ONet()
-    net = torch.load("f:/project/code/mtcnn/rnet.pth")
-    import PIL.Image as Image
-    import torchvision.transforms as tf 
-    a = 0
-    b = 1
-    for i in range(10000):
-        try:
-            img = Image.open("F:/Project/DataSet/celebre/24/positive/{}.jpg".format(i))
-            data = tf.ToTensor()(img).unsqueeze(dim=0)
-            c, o = net(data.cuda())
-            if c.item() < 0.1:
-                a += 1
-            b += 1
-        except:
-            continue
-    print("Accuracy rate: {} / {} = {}".format(a, b, 1-a/b))
+    # onet = ONet()
+    # net = torch.load("F:/Project/Code/MTCNN/pnet.pth")
+    # import PIL.Image as Image
+    # import torchvision.transforms as tf 
+    # a = 0
+    # b = 1
+    # for i in range(10000):
+    #     try:
+    #         img = Image.open("F:/Project/DataSet/celebre/24/positive/{}.jpg".format(i))
+    #         data = tf.ToTensor()(img).unsqueeze(dim=0)
+    #         c, o = net(data.cuda())
+    #         if c.item() < 0.1:
+    #             a += 1
+    #         b += 1
+    #     except:
+    #         continue
+    # print("Accuracy rate: {} / {} = {}".format(a, b, 1-a/b))
+    # loss = Regular(onet)
+    # print(loss.regular_loss())
    
 
     

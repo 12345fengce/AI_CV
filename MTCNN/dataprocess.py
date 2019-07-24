@@ -4,6 +4,7 @@ import utils
 import random
 import numpy as np
 import PIL.Image as Image
+from PIL import ImageFile
 
 
 def Clean(path_save):
@@ -122,8 +123,8 @@ def Negative(path_read, path_save):
                 # 生成目标图片进行保存  保存图片命名加路径
                 _img = img.crop((_x1, _y1, _x2, _y2))
                 _img = _img.resize((img_size, img_size))
-                _img.save(path_save+"/"+str(img_size)+"/negative/n{}.jpg".format(count))
-                n.write("negative/n{0}.jpg {1} {2} {3} {4} {5}\n".format(count, 0, 0, 0, 0, 0))
+                _img.save(path_save+"/"+str(img_size)+"/negative/add_{}.jpg".format(count))
+                n.write("negative/add_{0}.jpg {1} {2} {3} {4} {5}\n".format(count, 0, 0, 0, 0, 0))
                 count += 1
             if count % 10000 == 0:
                 print("making ... ... {}w+".format(count/10000))
@@ -141,8 +142,8 @@ def Sign(path_read, path_save, file):
         for path in [positive_path, part_path]:
             if not os.path.exists(path):
                 os.makedirs(path)
-        positive_label = open(positive_path+".txt", "w")
-        part_label = open(part_path+".txt", "w")
+        positive_label = open(positive_path+".txt", "a+")
+        part_label = open(part_path+".txt", "a+")
         count = 0
         for i, string in enumerate(label):
             if ".jpg" in string:
@@ -156,8 +157,8 @@ def Sign(path_read, path_save, file):
                     x, y, w, h, blur = [int(ele) for ele in lst[:5]]
                     if int(blur) < 2 and w > 15 and h > 15:
                         cx, cy = x+w/2, y+h/2
-                        cx, cy = random.uniform(cx-0.2*w, cx+0.2*w), random.uniform(cy-0.2*h, cy+0.2*h)
-                        w, h = random.uniform(0.7*w, 1.2*w), random.uniform(0.7*h, 1.2*h)
+                        cx, cy = random.uniform(cx-0.5*w, cx+0.5*w), random.uniform(cy-0.5*h, cy+0.5*h)
+                        w, h = random.uniform(0.8*w, 1.2*w), random.uniform(0.8*h, 1.2*h)
                         m = max(w, h)
                         x1, y1, x2, y2 = int(cx-m/2), int(cy-h/2), int(cx+m/2), int(cy+h/2)
                         image = img.crop((x1, y1, x2, y2))
@@ -166,16 +167,16 @@ def Sign(path_read, path_save, file):
                         inter_area = (min(x2, x+w)-max(x1, x))*(min(y2, y+h)-max(y1, y))
                         union_area = w*h+(y2-y1)*(x2-x1)-inter_area
                         iou = inter_area/union_area
-                        if iou > 0.65:
-                            image.save(positive_path+"/{}.jpg".format(count))
-                            positive_label.write("positive/{}.jpg {} {} {} {} {}\n".format(count, 1, x1_offset, y1_offset, x2_offset, y2_offset))
+                        if iou > 0.7:
+                            image.save(positive_path+"/add_8_{}.jpg".format(count))
+                            positive_label.write("positive/add_8_{}.jpg {} {} {} {} {}\n".format(count, 1, x1_offset, y1_offset, x2_offset, y2_offset))
                             count += 1
-                        elif iou < 0.5:
-                            image.save(part_path+"/{}.jpg".format(count))
-                            part_label.write("part/{}.jpg {} {} {} {} {}\n".format(count, 1.0, x1_offset, y1_offset, x2_offset, y2_offset))
+                        elif iou < 0.4:
+                            image.save(part_path+"/add_8_{}.jpg".format(count))
+                            part_label.write("part/add_8_{}.jpg {} {} {} {} {}\n".format(count, 2, x1_offset, y1_offset, x2_offset, y2_offset))
                             count += 1
                         if count%10000 == 0:
-                            print("I am running, {}w done!!!".format(w/10000))
+                            print("I am running, {}w done!!!".format(count/10000))
         positive_label.close()
         part_label.close()
        
@@ -193,9 +194,12 @@ def Sign(path_read, path_save, file):
     # DataProcess(path_read, path_save, file)
 
     # 补充负样本
+    # path_read = "G:/for_Mtcnn/img"
+    # path_save = "G:/for_Mtcnn/train"
     # Negative(path_read, path_save)
     
+    # wilder face
     # path_read = "G:/Wider_face/WIDER_train/images"
-    # path_save = "G:/Mtcnn_train"
+    # path_save = "G:/for_Mtcnn/train"
     # file = "G:/Wider_face/wider_face_split/wider_face_train_bbx_gt.txt"
     # Sign(path_read, path_save, file)
