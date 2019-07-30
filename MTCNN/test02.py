@@ -17,9 +17,9 @@ class Test:
         self.img_file = img_file
         self.image = Image.open(img_file)  # for croped
         self.img = Image.open(img_file)  # for pyramid
-        self.pnet = torch.load(p_path).eval()
-        self.rnet = torch.load(r_path).eval()
-        self.onet = torch.load(o_path).eval()
+        self.pnet = net.PNet().load_state_dict(torch.load(para_p)).eval()
+        self.rnet = net.PNet().load_state_dict(torch.load(para_r)).eval()
+        self.onet = net.PNet().load_state_dict(torch.load(para_o)).eval()
     
     def pyramid(self, scal=0.707):
         "resize the image to smaller size"
@@ -52,7 +52,8 @@ class Test:
             x_index, y_index = index[:, 1:2], index[:, 2:3]
             x1, y1, x2, y2 = x_index*2/scal, y_index*2/scal, (x_index*2+12)/scal, (y_index*2+12)/scal  # top_left*scal=index*stride  bottom_right*scal=top_left+12
             p_prior = np.hstack(([x1, y1, x2, y2]))  # translate to numpy which ndim=2
-            offset = utils.transform(offset, p_prior)  
+            offset, landmarks = offset[:, :4], offset[:, 4:]
+            offset, _ = utils.transform(offset, landmarks, p_prior)
             
             boxes = np.hstack((offset, confi))  # [[offset+confi]] for NMS
             boxes = utils.NMS(boxes, threshold=0.3, ismin=False) 
@@ -84,21 +85,20 @@ class Test:
         confi = confi.data.cpu().numpy().flatten()
         offset = offset.data.cpu().numpy()
 
-        offset, prior, confi = offset[confi >= 0.99], prior[confi >= 0.99], confi[confi >= 0.99]  
-    
-        offset = utils.transform(offset, prior)
-        del prior, data
+        offset, prior, confi = offset[confi >= 0.99], prior[confi >= 0.99], confi[confi >= 0.99]
+
+        offset, landmarks = offset[:, :4], offset[:, 4:]
+        offset, _ = utils.transform(offset, landmarks, p_prior)
 
         boxes = np.hstack((offset, np.expand_dims(confi, axis=1)))  
         boxes = utils.NMS(boxes, threshold=0.3, ismin=False)
-        coordinates = boxes
         
         o_data, o_prior = utils.crop_to_square(boxes, 48, self.image)
 
         o_prior = np.stack(o_prior, axis=0)  
         o_data = torch.stack(o_data, dim=0)
         print("RNet create {} candidate items".format(o_data.size(0)))
-        utils.draw(np.stack(coordinates, axis=0), self.img_file, "RNet")
+        utils.draw(coordinates, self.img_file, "RNet")
         return o_data, o_prior
     
     def o(self):
@@ -112,14 +112,13 @@ class Test:
         confi = confi.data.cpu().numpy().flatten()
         offset = offset.data.cpu().numpy()
 
-        offset, prior, confi = offset[confi >= 0.999], prior[confi >= 0.999], confi[confi >= 0.999] 
+        offset, prior, confi = offset[confi >= 0.999], prior[confi >= 0.999], confi[confi >= 0.999]
 
-        offset = utils.transform(offset, prior) 
+        offset, landmarks = offset[:, :4], offset[:, 4:]
+        offset, landmarks = utils.transform(offset, landmarks, prior)
 
-        boxes = np.hstack((offset, np.expand_dims(confi, axis=1)))  # 将偏移量与置信度结合，进行NMS
+        boxes = np.hstack((offset, np.expand_dims(confi, axis=1), landmarks))  # 将偏移量与置信度结合，进行NMS
         boxes = utils.NMS(boxes, threshold=0.3, ismin=True)
-        print(boxes[..., -1])
-        coordinates = boxes
         print("ONet create {} candidate items".format(boxes.shape[0]))
         utils.draw(np.stack(coordinates, axis=0), self.img_file, "ONet")
 
@@ -129,7 +128,7 @@ if __name__ == "__main__":
     r_path = "G:/for_MTCNN/test/rnet.pth"
     o_path = "G:/for_MTCNN/test/onet.pth"
     i = 0
-    while i < 21:
+    while i < 25:
         img_file = "G:/for_MTCNN/test/{}.jpg".format(i)
         print("\ntest - {} :".format(i+1))
         print("**************************************************")

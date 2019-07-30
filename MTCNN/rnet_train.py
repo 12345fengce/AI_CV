@@ -3,10 +3,10 @@ import net
 import trainer 
 
 
-rnet = net.RNet()
-save_path = "F:/Project/Code/MTCNN/rnet.pth"
-train_path = "G:/for_Mtcnn/train"
-validation_path = "G:/for_MTCNN/validation"
-img_size = 24
+model = net.RNet()
+save = "G:/for_MTCNN/test/rnet.pth"
+train = "G:/for_MTCNN/train"
+validation = "G:/for_MTCNN/validation"
+size = 24
 if __name__ == "__main__":
-    trainer.Trainer(rnet, train_path, validation_path, save_path, img_size).train()
+    trainer.Trainer(model, train, validation, save, size).main()

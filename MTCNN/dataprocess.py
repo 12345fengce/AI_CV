@@ -1,5 +1,5 @@
 # -*-coding:utf-8-*-
-import os
+import os, sys
 import utils
 import random
 import numpy as np
@@ -7,7 +7,7 @@ import PIL.Image as Image
 from PIL import ImageFile
 
 
-def Clean(path_save):
+def clean(path_save):
     path_save.replace(r"\\", r"/")
     try:
         os.remove(path_save)
@@ -24,78 +24,72 @@ def Clean(path_save):
     print("Cleaning ... ... Clean Done!")
 
 
-def DataProcess(path_read, path_save, file):
+def dataprocess(read, save, target, landmark):
     # 循环制作三个尺寸的图片
-    for img_size in [12, 24, 48]:
-        # if img_size != 24:
-        #     continue
+    for img_size in [24, 48]:
         # 图片存储目录
-        positive_path = path_save+r"/"+str(img_size)+r"/positive"
-        negative_path = path_save+r"/"+str(img_size)+r"/negative"
-        part_path = path_save+r"/"+str(img_size)+r"/part"
-        for path in [positive_path, negative_path, part_path]:
+        positive_path = save+r"/"+str(img_size)+r"/positive"
+        part_path = save+r"/"+str(img_size)+r"/part"
+        for path in [positive_path, part_path]:
             if not os.path.exists(path):
                 os.makedirs(path)
         # 标签存储文件
-        p = open(positive_path+".txt", "a+")
-        n = open(negative_path+".txt", "a+")
-        part = open(part_path+".txt", "a+")
+        p = open(positive_path+".txt", "w")
+        part = open(part_path+".txt", "w")
         # 计数，作为图片名，每个img_size都从0开始
         count = 0
         # 分行读取原标签，读取图片
-        for i, line in enumerate(open(file)):
+        landmarks = open(landmark, "r").readlines()
+        for i, line in enumerate(open(target)):
             if i < 2:
                 continue
-            img, x, y, w, h = line.split()
-            x, y, w, h = int(x), int(y), int(w), int(h)
+            # 取出角点与宽高
+            img, *line = line.split()
+            x, y, w, h = map(int, line)
+            img = Image.open(read + "/" + img)
+            # 取出5个标记点
+            landmark_points = list(map(int, landmarks[i].replace(" ", ",").split(",")[1:]))  # 便于生成列表形式
             if w <= 0 or h <= 0:
                 continue
-            img = Image.open(path_read+"/"+img)
-            # 原标签微调后坐标(角坐标+中心坐标)
-            w, h = 0.9*w, 0.85*h
-            x1, y1 = x, y
-            x2, y2 = x+w, y+h
-            xm, ym = (x1+x2)/2, (y1+y2)/2
-            box = [x1, y1, x2, y2]  
+            m = min(w, h)
+            xm, ym = x+w/2, y+h/2
+            box = [x, y, x+w, y+h]
             # 中心点随机移动生成5张随机边长正方形
-            w = min(w, h)
             i = 0
-            while i < 5:
-                bias_x = random.randint(int(-w*0.2), int(w*0.2))
-                bias_y = random.randint(int(-w*0.3), int(w*0.3))
+            while i < 3:
+                bias_x = random.randint(int(-m*0.3), int(m*0.3))
+                bias_y = random.randint(int(-m*0.3), int(m*0.3))
                 _xm, _ym = xm+bias_x, ym+bias_y
-                side = random.randint(int(w*0.6), int(1.2*w))
+                side = random.randint(int(m*0.6), int(1.2*m))
                 # 随机方形角坐标，计算偏移量
                 _x1, _y1 = _xm-side//2, _ym-side//2
                 _x2, _y2 = _xm+side//2, _ym+side//2
-                boxes = [_x1, _y1, _x2, _y2]
+                boxes = list(map(int, [_x1, _y1, _x2, _y2]))
                 offset = list(map(lambda x, y: (x-y)/side, boxes, box))  # 外框-标签框
+                _landmark = landmark_points.copy()  # 采用列表copy  因为列表本身可变
+                _landmark[::2] = list(map(lambda x: (_x2-x)/side, _landmark[::2]))
+                _landmark[1::2] = list(map(lambda x: (_y2-x)/side, _landmark[1::2]))
                 # 切出图片并进行缩放
                 _img = img.crop((_x1, _y1, _x2, _y2))
                 _img = _img.resize((img_size, img_size))
                 # 根据IOU保存图片，写入标签
                 iou = utils.IOU(np.array(box), np.array([boxes]))
                 # 正样本  保存图片命名加路径
-                if iou > 0.7:
+                if iou > 0.61:
                     _img.save(positive_path+r"/{}.jpg".format(count))
-                    p.write("positive/{0}.jpg {1} {2} {3} {4} {5}\n".format(count, 1, offset[0], offset[1], offset[2], offset[3]))
+                    p.write("positive/{0}.jpg {1} {2} {3}\n".format(count, 1, offset, _landmark))
                     i += 1
                     count += 1
                 # 部分样本  保存图片命名加路径
                 if iou < 0.3:
                     _img.save(part_path+r"/{}.jpg".format(count))
-                    part.write("part/{0}.jpg {1} {2} {3} {4} {5}\n".format(count, 2, offset[0], offset[1], offset[2], offset[3]))
+                    part.write("part/{0}.jpg {1} {2} {3}\n".format(count, 2, offset, _landmark))
                     i += 1
                     count += 1
-                # 负样本  保存图片命名加路径
-                # if iou < 0.1:
-                #     _img.save(negative_path+r"/{}.jpg".format(count))
-                #     n.write("negative/{0}.jpg {1} {2} {3} {4} {5}\n".format(count, 0, offset[0], offset[1], offset[2], offset[3]))
             if count % 10000 == 0:
                 print("making ... ... {}w+".format(count/10000))
         p.close()
         part.close()
-        n.close()
         print("size: {}*{} Saved Succeed!, total {} files".format(img_size, img_size, count))
 
 
@@ -181,17 +175,18 @@ def Sign(path_read, path_save, file):
         part_label.close()
        
  
-# if __name__ == "__main__":
-    # path_read = "F:/Python/DataSet/celebre/img_celeba"
+if __name__ == "__main__":
+    read = "G:/celebre/img_celeba"
     # path_read = "F:/Python/DataSet/celebre/img_negative"
-    # path_save = "F:/Python/DataSet/celebre"
-    # file = "F:/Python/DataSet/celebre/Anno/list_bbox_celeba.txt"
+    save = "G:/for_MTCNN/train"
+    target = "G:/celebre/Anno/list_bbox_celeba.txt"
+    landmark = "G:/celebre/Anno/list_landmarks_celeba.txt"
 
     # 清空存储空间
     # Clean(path_save)
 
     # 制作图片
-    # DataProcess(path_read, path_save, file)
+    dataprocess(read, save, target, landmark)
 
     # 补充负样本
     # path_read = "G:/for_Mtcnn/img"

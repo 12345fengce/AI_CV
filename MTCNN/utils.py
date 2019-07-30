@@ -47,14 +47,16 @@ def NMS(boxes, threshold=0.3, ismin=False):
     return np.array(get_box)
 
 
-def transform(offset, coordinates):
+def transform(offset, landmark, coordinate):
     """transform offset to original coordinates
         offset: numpy.ndarray
         coordinates: numpy.ndarray"""
-    side_len = coordinates[:, 2:3]-coordinates[:, :1]  # slice will keep ndim=2
-    side_len = side_len[:, [0, 0, 0, 0]]
-    offset = (-offset*side_len+coordinates).astype(int)  
-    return offset
+    side_len = (coordinate[:, 2]-coordinate[:, 0]).reshape(-1, 1)  # slice will keep ndim=2
+    offset = (coordinate-offset*side_len).astype(int)
+    x, y = coordinate[:, -1].reshape(-1, 1), coordinate[:, -2].reshape(-1, 1)
+    landmark[:, ::2] = x-landmark[:, ::2]*side_len
+    landmark[:, 1::2] = y-landmark[:, 1::2]*side_len
+    return offset, landmark
 
 
 def crop_to_square(coordinates, size, image):
@@ -86,6 +88,12 @@ def draw(coordinates, img_path:str, net:str):
         img = cv2.imread(img_path)  
         for tangle in coordinates.astype(int):  
             cv2.rectangle(img,  (tangle[0], tangle[1]), (tangle[2], tangle[3]), (0, 0, 255), 1)
+            cv2.putText(img, str(tangle[4]), (tangle[0], tangle[1]), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 1)
+            for i, point in enumerate(tangle):
+                if i < 5:
+                    continue
+                if i % 2 == 0:
+                    cv2.circle(img, (point[i-1], point[i]), 0.1, (0, 0, 255))
         cv2.imshow("{}".format(net), img)
         cv2.waitKey(3000)
         cv2.destroyAllWindows()
