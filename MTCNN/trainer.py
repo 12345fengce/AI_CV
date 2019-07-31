@@ -15,11 +15,12 @@ class Trainer:
         self.size = size
         if os.path.exists(save):
             print("loading ... ...")
-            self.net = self.model.load_state_dict(torch.load(save))
+            self.net = model.to(self.device)
+            self.net.load_state_dict(torch.load(save)())
         else:
             print("creating ... ...")
             self.net = model.to(self.device)
-        self.train_set = data.DataLoader(dataset.MyData(train, size), batch_size=512, shuffle=True, num_workers=3)
+        self.train_set = data.DataLoader(dataset.MyData(train, size), batch_size=512, shuffle=True, num_workers=4)
         self.validation_set = data.DataLoader(dataset.MyData(validation, size), batch_size=128, shuffle=True)
         self.optimize = optim.Adam(self.net.parameters())
         self.loss_confi = nn.BCELoss()
@@ -55,7 +56,7 @@ class Trainer:
                 print("$ 测试集：[epoche] - {}  Loss:  {:.2f}  Recall:  {:.2f}%  Iou:  {:.2f}"
                       .format(epoche, loss.item(), (out_positive/label_positive*100).item(), iou.item()))
             epoche += 1
-            torch.save(self.net.state_dict, self.save)
+            torch.save(self.net.state_dict(), self.save)
             if epoche == 500:
                 # mode:verify
                 self.net.eval()

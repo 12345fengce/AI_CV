@@ -85,17 +85,20 @@ def crop_to_square(coordinates, size, image):
 def draw(coordinates, img_path:str, net:str):
         """draw rectangles on the image
             coordinates: numpy.ndarray"""
-        img = cv2.imread(img_path)  
-        for tangle in coordinates.astype(int):  
+        img = cv2.imread(img_path)
+        for tangle in coordinates:
+            tangle, confi, landmark = tangle[:4].astype(int), tangle[4], tangle[5:].astype(int)
+            if max(landmark[::2]) > tangle[2] or min(landmark[::2]) < tangle[0] or\
+               max(landmark[1::2]) > tangle[3] or min(landmark[1::2]) < tangle[1]:
+                continue
             cv2.rectangle(img,  (tangle[0], tangle[1]), (tangle[2], tangle[3]), (0, 0, 255), 1)
-            cv2.putText(img, str(tangle[4]), (tangle[0], tangle[1]), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 1)
-            for i, point in enumerate(tangle):
-                if i < 5:
-                    continue
-                if i % 2 == 0:
-                    cv2.circle(img, (point[i-1], point[i]), 0.1, (0, 0, 255))
+            cv2.putText(img, str(confi), (tangle[0], tangle[1]), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 0, 0), 1)
+            for i, point in enumerate(landmark):
+                if i % 2 != 0:
+                    print("landmark: ({}, {})".format(landmark[i-1], point))
+                    cv2.circle(img, (landmark[i-1], point), 1, (0, 0, 255))
         cv2.imshow("{}".format(net), img)
-        cv2.waitKey(3000)
+        cv2.waitKey(0)
         cv2.destroyAllWindows()
         
 
