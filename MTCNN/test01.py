@@ -1,4 +1,4 @@
-# -*-coding:utf-8-*-
+# -*- coding:utf-8 -*-
 import os
 import net
 import time
@@ -21,16 +21,16 @@ class Test:
         self.img = Image.open(test_img)  # 复制图片用于图像金字塔
 
         self.pnet = net.PNet().to(self.device)
-        self.pnet.load_state_dict(torch.load(para_p)())
+        self.pnet.load_state_dict(torch.load(para_p))
         self.pnet.eval()
 
-        # self.rnet = net.PNet().to(self.device)
-        # self.rnet.load_state_dict(torch.load(para_r)())
-        # self.rnet.eval()
-        #
-        # self.onet = net.PNet().to(self.device)
-        # self.onet.load_state_dict(torch.load(para_o))
-        # self.onet.eval()
+        self.rnet = net.RNet().to(self.device)
+        self.rnet.load_state_dict(torch.load(para_r))
+        self.rnet.eval()
+
+        self.onet = net.ONet().to(self.device)
+        self.onet.load_state_dict(torch.load(para_o))
+        self.onet.eval()
 
     def pyramid(self, scal=0.707):
         "resize the image to smaller size"
@@ -51,7 +51,7 @@ class Test:
         start_time = time.time()
         while min(self.img.size) > 12:
             scal = 0.707**count  # 缩放比例，可以还原到原图  0.707为面积的一半
-            input_ = tf.ToTensor()(self.img).unsqueeze(dim=0)
+            input_ = tf.ToTensor()(self.img).unsqueeze(dim=0)-0.5
             with torch.no_grad():
                 confi, offset = self.pnet(input_.cuda())
             W = offset.size(3)  # 取出图片的w值
@@ -61,7 +61,7 @@ class Test:
             offset = offset.reshape((-1, 14)).cpu().numpy()
 
             o_index = np.arange(len(offset)).reshape(-1, 1)  # 特征图W_out*H_out
-            offset, o_index, confi = offset[confi >= 0.9], o_index[confi >= 0.9], confi[confi >= 0.9]  
+            offset, o_index, confi = offset[confi >= 0.9], o_index[confi >= 0.9], confi[confi >= 0.9]
            
             y_index, x_index = divmod(o_index, W)  # 索引/w  在特征图中对应索引为（x，y）=（余数， 商）
             x1, y1, x2, y2 = x_index*2/scal, y_index*2/scal, (x_index*2+12)/scal, (y_index*2+12)/scal  # 左上角=索引*步长  右上角=左上角+边长
@@ -105,7 +105,7 @@ class Test:
         offset, prior, confi = offset[confi >= 0.99], prior[confi >= 0.99], confi[confi >= 0.99]
 
         offset, landmarks = offset[:, :4], offset[:, 4:]
-        offset, landmarks = utils.transform(offset, landmarks, p_prior)
+        offset, landmarks = utils.transform(offset, landmarks, prior)
 
         boxes = np.hstack((offset, np.expand_dims(confi, axis=1), landmarks))
         boxes = utils.NMS(boxes, threshold=0.3, ismin=False)
@@ -141,17 +141,17 @@ class Test:
 
     
 if __name__ == "__main__":
-    p_path = "G:/for_MTCNN/test/pnet.pth"
-    r_path = "G:/for_MTCNN/test/rnet.pth"
-    o_path = "G:/for_MTCNN/test/onet.pth"
+    p_path = "F:/MTCNN/test/pnet.pth"
+    r_path = "F:/MTCNN/test/rnet.pth"
+    o_path = "F:/MTCNN/test/onet.pth"
     i = 0
-    while i < 22:
-        test_img = "G:/for_MTCNN/test/{}.jpg".format(i)
+    while i < 25:
+        test_img = "F:/MTCNN/test/{}.jpg".format(i)
         print("\ntest - {} :".format(i+1))
         print("**************************************************")
         try:
             test = Test(p_path, r_path, o_path, test_img)
-            test.p()
+            test.o()
             i += 1
         except:
             print("No faces found! Please check your code!!!")

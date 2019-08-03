@@ -1,4 +1,5 @@
 # -*-coding:utf-8-*-
+import cv2
 import os, sys
 import utils
 import random
@@ -26,7 +27,7 @@ def clean(path_save):
 
 def dataprocess(read, save, target, landmark):
     # 循环制作三个尺寸的图片
-    for img_size in [24, 48]:
+    for img_size in [12, 24, 48]:
         # 图片存储目录
         positive_path = save+r"/"+str(img_size)+r"/positive"
         part_path = save+r"/"+str(img_size)+r"/part"
@@ -179,14 +180,26 @@ if __name__ == "__main__":
     read = "G:/celebre/img_celeba"
     # path_read = "F:/Python/DataSet/celebre/img_negative"
     save = "G:/for_MTCNN/train"
-    target = "G:/celebre/Anno/list_bbox_celeba.txt"
-    landmark = "G:/celebre/Anno/list_landmarks_celeba.txt"
+    target = "G:/Dataset/celebre/Anno/list_bbox_celeba.txt"
+    landmarks = "G:/Dataset/celebre/Anno/list_landmarks_celeba.txt"
+
+    # file = open(landmarks, "r")
+    # file = file.readlines()
+    # img, *landmark = file[2].split()
+    # img = "G:/Dataset/celebre/img_celeba/"+img
+    # img = cv2.imread(img)
+    # for i, point in enumerate(landmark):
+    #     if i%2 != 0:
+    #         cv2.circle(img, (int(landmark[i-1]), int(point)), 2, (255, 0, 0))
+    # cv2.imshow("landmark", img)
+    # cv2.waitKey(0)
+    # cv2.destroyAllWindows()
 
     # 清空存储空间
     # Clean(path_save)
 
     # 制作图片
-    dataprocess(read, save, target, landmark)
+    # dataprocess(read, save, target, landmark)
 
     # 补充负样本
     # path_read = "G:/for_Mtcnn/img"

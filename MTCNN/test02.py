@@ -21,16 +21,16 @@ class Test:
         self.img = Image.open(test_img)  # for pyramid
         
         self.pnet = net.PNet().to(self.device)
-        self.pnet.load_state_dict(torch.load(para_p)())
+        self.pnet.load_state_dict(torch.load(para_p))
         self.pnet.eval()
         
-        # self.rnet = net.PNet().to(self.device)
-        # self.rnet.load_state_dict(torch.load(para_r)())
-        # self.rnet.eval()
-        #
-        # self.onet = net.PNet().to(self.device)
-        # self.onet.load_state_dict(torch.load(para_o))
-        # self.onet.eval()
+        self.rnet = net.RNet().to(self.device)
+        self.rnet.load_state_dict(torch.load(para_r))
+        self.rnet.eval()
+
+        self.onet = net.ONet().to(self.device)
+        self.onet.load_state_dict(torch.load(para_o))
+        self.onet.eval()
         
     def pyramid(self, scal=0.707):
         "resize the image to smaller size"
@@ -51,7 +51,7 @@ class Test:
         start_time = time.time()
         while min(self.img.size) > 12:
             scal = 0.707**count  # 0.707 make the area half of origin image
-            input = tf.ToTensor()(self.img).unsqueeze(dim=0)
+            input = tf.ToTensor()(self.img).unsqueeze(dim=0)-0.5
             with torch.no_grad():
                 confi, offset = self.pnet(input.cuda())
             confi = confi.transpose(1, -1)
@@ -106,7 +106,7 @@ class Test:
         offset, prior, confi = offset[confi >= 0.99], prior[confi >= 0.99], confi[confi >= 0.99]
 
         offset, landmarks = offset[:, :4], offset[:, 4:]
-        offset, landmarks = utils.transform(offset, landmarks, p_prior)
+        offset, landmarks = utils.transform(offset, landmarks, prior)
 
         boxes = np.hstack((offset, np.expand_dims(confi, axis=1), landmarks))
         boxes = utils.NMS(boxes, threshold=0.3, ismin=False)
@@ -145,17 +145,17 @@ class Test:
 
     
 if __name__ == "__main__":
-    para_p = "G:/for_MTCNN/test/pnet.pth"
-    para_r = "G:/for_MTCNN/test/rnet.pth"
-    para_o = "G:/for_MTCNN/test/onet.pth"
+    para_p = "F:/MTCNN/test/pnet.pth"
+    para_r = "F:/MTCNN/test/rnet.pth"
+    para_o = "F:/MTCNN/test/onet.pth"
     i = 0
     while i < 25:
-        test_img = "G:/for_MTCNN/test/{}.jpg".format(i)
+        test_img = "F:/MTCNN/test/{}.jpg".format(i)
         print("\ntest - {} :".format(i+1))
         print("**************************************************")
         try:
             test = Test(para_p, para_r, para_o, test_img)
-            test.p()
+            test.o()
             i += 1
         except:
             print("No faces found! Please check your code!!!")

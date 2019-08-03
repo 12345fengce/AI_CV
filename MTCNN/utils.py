@@ -53,7 +53,7 @@ def transform(offset, landmark, coordinate):
         coordinates: numpy.ndarray"""
     side_len = (coordinate[:, 2]-coordinate[:, 0]).reshape(-1, 1)  # slice will keep ndim=2
     offset = (coordinate-offset*side_len).astype(int)
-    x, y = coordinate[:, -1].reshape(-1, 1), coordinate[:, -2].reshape(-1, 1)
+    x, y = coordinate[:, -2].reshape(-1, 1), coordinate[:, -1].reshape(-1, 1)
     landmark[:, ::2] = x-landmark[:, ::2]*side_len
     landmark[:, 1::2] = y-landmark[:, 1::2]*side_len
     return offset, landmark
@@ -95,7 +95,6 @@ def draw(coordinates, img_path:str, net:str):
             cv2.putText(img, str(confi), (tangle[0], tangle[1]), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 0, 0), 1)
             for i, point in enumerate(landmark):
                 if i % 2 != 0:
-                    print("landmark: ({}, {})".format(landmark[i-1], point))
                     cv2.circle(img, (landmark[i-1], point), 1, (0, 0, 255))
         cv2.imshow("{}".format(net), img)
         cv2.waitKey(0)
