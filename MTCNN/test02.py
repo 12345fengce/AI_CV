@@ -149,7 +149,7 @@ if __name__ == "__main__":
     para_r = "F:/MTCNN/test/rnet.pth"
     para_o = "F:/MTCNN/test/onet.pth"
     i = 0
-    while i < 25:
+    while i < 26:
         test_img = "F:/MTCNN/test/{}.jpg".format(i)
         print("\ntest - {} :".format(i+1))
         print("**************************************************")

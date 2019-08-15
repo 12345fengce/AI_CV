@@ -145,7 +145,7 @@ if __name__ == "__main__":
     r_path = "F:/MTCNN/test/rnet.pth"
     o_path = "F:/MTCNN/test/onet.pth"
     i = 0
-    while i < 25:
+    while i < 26:
         test_img = "F:/MTCNN/test/{}.jpg".format(i)
         print("\ntest - {} :".format(i+1))
         print("**************************************************")

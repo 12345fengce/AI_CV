@@ -109,7 +109,7 @@ class Regular(nn.Module):
         model: 网络
         weight_decay: 衰减系数（加权）
         p: 范数，默认L2"""
-    def __init__(self, model, weight_decay=0.01, p=2):
+    def __init__(self, model, weight_decay=0, p=2):
         super(Regular, self).__init__()
         self.model = model
         self.weight_decay = weight_decay

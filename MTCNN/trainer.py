@@ -21,11 +21,10 @@ class Trainer:
         else:
             print("creating ... ...")
             self.net = model.to(self.device)
-        print("get dir : run!!!")
-        self.summarywriter = SummaryWriter()
-        self.train_set = data.DataLoader(dataset.MyData(train, size), batch_size=256, shuffle=True, num_workers=4)
-        self.validation_set = data.DataLoader(dataset.MyData(validation, size), batch_size=256, shuffle=True)
-        self.optimize = optim.SGD(self.net.parameters(), lr=1e-3, momentum=0.9)
+        self.summarywriter = SummaryWriter(log_dir="./runs/{}_runs".format(save[-8]))
+        self.train_set = data.DataLoader(dataset.MyData(train, size), batch_size=512, shuffle=True, num_workers=4)
+        self.validation_set = data.DataLoader(dataset.MyData(validation, size), batch_size=512, shuffle=True)
+        self.optimize = optim.Adam(self.net.parameters())
         self.loss_confi = nn.BCELoss()
         self.loss_offset = nn.MSELoss()
 
@@ -54,7 +53,7 @@ class Trainer:
                 self.optimize.zero_grad()
                 loss.backward()
                 self.optimize.step()
-                self.summarywriter.add_scalar("Loss-training", loss, global_step=epoche)
+                self.summarywriter.add_scalar("Loss-training", loss.cpu().data, global_step=epoche)
                 print("Proccessing: {}/{}".format(i, len(self.train_set)))
                 iou = self.iou(_offset[-1], offset[-1])
                 print("$ 测试集：[epoche] - {}  Loss:  {:.2f}  Recall:  {:.2f}%  Iou:  {:.2f}"
