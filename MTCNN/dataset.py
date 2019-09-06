@@ -7,6 +7,8 @@ import torch.utils.data as data
 import torchvision.transforms as tf
 
 
+TRAIN = "F:/MTCNN/train"
+TEST = "F:/MTCNN/verify"
 
 
 class MyData(data.Dataset):
@@ -37,12 +39,20 @@ class MyData(data.Dataset):
         return img, confi, offset
 
 
-if __name__ == '__main__':
-    path = "G:/for_MTCNN/train"
-    size = 12
-    mydata = MyData(path, size)
-    print(mydata[100], len(mydata.targets))
-
+def choice(mode: str):
+    if mode == "p":
+        dataset = MyData(TRAIN, 12)
+    elif mode == "r":
+        dataset = MyData(TRAIN, 24)
+    elif mode == "o":
+        dataset = MyData(TRAIN, 48)
+    if mode == "pv":
+        dataset = MyData(TEST, 12)
+    elif mode == "rv":
+        dataset = MyData(TEST, 24)
+    elif mode == "ov":
+        dataset = MyData(TEST, 48)
+    return dataset
 
             
 

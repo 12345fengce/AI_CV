@@ -141,11 +141,11 @@ class Test:
 
     
 if __name__ == "__main__":
-    p_path = "F:/MTCNN/test/pnet.pth"
-    r_path = "F:/MTCNN/test/rnet.pth"
-    o_path = "F:/MTCNN/test/onet.pth"
+    p_path = "./params/pnet.pkl"
+    r_path = "./params/rnet.pkl"
+    o_path = "./params/onet.pkl"
     i = 0
-    while i < 26:
+    while i < 25:
         test_img = "F:/MTCNN/test/{}.jpg".format(i)
         print("\ntest - {} :".format(i+1))
         print("**************************************************")
