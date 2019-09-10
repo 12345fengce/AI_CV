@@ -34,7 +34,7 @@ class Train:
         self.train = data.DataLoader(dataset.choice(mode.lower()), batch_size=batch_size, shuffle=True, num_workers=4, drop_last=True)
         self.test = data.DataLoader(dataset.choice("{}v".format(mode.lower())), batch_size=512, shuffle=True, drop_last=True)
         # optimize
-        self.optimize = optim.SGD(self.net.parameters(), lr=3e-4, momentum=0.9, weight_decay=1e-5)
+        self.optimize = optim.SGD(self.net.parameters(), lr=1e-3, momentum=0.9)
         # loss
         self.loss_confi = nn.BCELoss()
         self.loss_offset = nn.MSELoss()
@@ -51,18 +51,19 @@ class Train:
                 # filter
                 cout, oout = cout.view(x.size(0), -1), oout.view(x.size(0), -1)
                 accurary, recall = self.critic(cout, oout, confi, offset)
+                accurary, recall = self.critic(cout, oout, confi, offset)
                 oout, offset = oout[confi.view(-1) != 0], offset[confi.view(-1) != 0]
                 cout, confi = cout[confi.view(-1) != 2], confi[confi.view(-1) != 2]
                 # loss
                 closs = self.loss_confi(cout, confi)
                 oloss = self.loss_offset(oout, offset)
-                regular = net.Regular(self.net, weight_decay=1e-5)
+                regular = net.Regular(self.net, weight_decay=1e-4)
                 if self.mode == "p" or self.mode == "P":
                     loss = 2*closs+oloss+regular.regular_loss()
                 elif self.mode == "r" or self.mode == "R":
                     loss = closs+oloss+regular.regular_loss()
                 elif self.mode == "o" or self.mode == "O":
-                    loss = closs+2*oloss+regular.regular_loss()
+                    loss = 1.5*closs+oloss+regular.regular_loss()
                 # backward
                 self.optimize.zero_grad()
                 loss.backward()
@@ -90,7 +91,7 @@ class Train:
                     self.summarywriter.add_scalar("LOSS-TEST", _loss.item(), global_step=epoche)
                     print("$ 训练集：[epoche] - {}  Accuracy: {:.2f}%  Recall: {:.2f}% "
                           .format(epoche, _accurary.item() * 100, _recall.item() * 100))
-            torch.save(self.net.state_dict(), "./params/{}net.pkl")
+            torch.save(self.net.state_dict(), "./params/{}net.pkl".format(self.mode.lower()))
 
     def critic(self, cout, oout, confi, offset):
         TP = torch.sum(cout[confi.view(-1) != 0] >= self.threshold)

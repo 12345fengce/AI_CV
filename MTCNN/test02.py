@@ -1,5 +1,6 @@
 # -*-coding:utf-8-*-
 import os
+import cv2
 import net
 import time
 import torch
@@ -14,24 +15,24 @@ class Test:
         p: p_net
         r: r_net
         o: o_net"""
-    def __init__(self, para_p, para_r, para_o, test_img):
+    def __init__(self, test_img):
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-        self.test_img = test_img
-        self.image = Image.open(test_img)  # for croped
-        self.img = Image.open(test_img)  # for pyramid
+
+        self.image = Image.fromarray(np.uint8(test_img[:, :, [2, 1, 0]]))  # for croped  transform cv2 to PIL
+        self.img = self.image  # for pyramid
         
         self.pnet = net.PNet().to(self.device)
-        self.pnet.load_state_dict(torch.load(para_p))
+        self.pnet.load_state_dict(torch.load("./params/pnet.pkl"))
         self.pnet.eval()
         
         self.rnet = net.RNet().to(self.device)
-        self.rnet.load_state_dict(torch.load(para_r))
+        self.rnet.load_state_dict(torch.load("./params/rnet.pkl"))
         self.rnet.eval()
 
         self.onet = net.ONet().to(self.device)
-        self.onet.load_state_dict(torch.load(para_o))
+        self.onet.load_state_dict(torch.load("./params/onet.pkl"))
         self.onet.eval()
-        
+
     def pyramid(self, scal=0.707):
         "resize the image to smaller size"
         w, h = self.img.size
@@ -48,18 +49,15 @@ class Test:
         r_prior, r_data = [], []  # collect RNet's prior, RNet's input
         coordinates = []  # collect coordinates for draw
         count = 0
-        start_time = time.time()
         while min(self.img.size) > 12:
             scal = 0.707**count  # 0.707 make the area half of origin image
             input = tf.ToTensor()(self.img).unsqueeze(dim=0)-0.5
             with torch.no_grad():
                 confi, offset = self.pnet(input.cuda())
-            confi = confi.transpose(1, -1)
+            confi, offset = confi.transpose(1, -1), offset.transpose(1, -1)
 
             mask = confi[..., 0] >= 0.9
             confi = confi[mask].cpu().numpy()  # filter confi
-
-            offset = offset.transpose(1, -1)
             offset = offset[mask].cpu().numpy()  # filter offset
 
             index = mask.nonzero().cpu().numpy()  # index 
@@ -73,7 +71,7 @@ class Test:
             boxes = np.hstack((offset, confi, landmarks))  # [[offset+confi+landmarks]] for NMS
             boxes = utils.NMS(boxes, threshold=0.3, ismin=False) 
             coordinates.extend(boxes.tolist())
-            if boxes.shape[0] == 0:  # for the case which can not get any box of confi >= 0.9
+            if boxes.shape[0] == 0:
                 break
 
             data, prior = utils.crop_to_square(boxes[:, :5], 24, self.image)
@@ -84,9 +82,6 @@ class Test:
 
         r_prior = np.stack(r_prior, axis=0)  
         r_data = torch.stack(r_data, dim=0)
-        end_time = time.time()
-        print("PNet create {} candidate items\ncost {}s!".format(r_data.size(0), end_time - start_time))
-        utils.draw(np.stack(coordinates, axis=0), self.test_img, "PNet")
         return r_data,  r_prior
         
     def r(self):
@@ -96,7 +91,6 @@ class Test:
             filter with NMS
             crop image from original image for ONet's input
             draw"""
-        start_time = time.time()
         data, prior = self.p()
         with torch.no_grad():
             confi, offset = self.rnet(data.cuda())
@@ -115,9 +109,6 @@ class Test:
 
         o_prior = np.stack(o_prior, axis=0)  
         o_data = torch.stack(o_data, dim=0)
-        end_time = time.time()
-        print("RNet create {} candidate items\ncost {}s!".format(o_data.size(0), end_time-start_time))
-        utils.draw(boxes, self.test_img, "RNet")
         return o_data, o_prior
     
     def o(self):
@@ -126,7 +117,6 @@ class Test:
             calculate coordinates
             filter with NMS
             draw"""
-        start_time = time.time()
         data, prior = self.r()
         with torch.no_grad():
             confi, offset = self.onet(data.cuda())
@@ -140,26 +130,16 @@ class Test:
 
         boxes = np.hstack((offset, np.expand_dims(confi, axis=1), landmarks))  # 将偏移量与置信度结合，进行NMS
         boxes = utils.NMS(boxes, threshold=0.3, ismin=True)
-        print("ONet create {} candidate items".format(boxes.shape[0]))
-        utils.draw(boxes, self.test_img, "ONet")
+
+        return boxes
 
     
 if __name__ == "__main__":
-    para_p = "F:/MTCNN/test/pnet.pth"
-    para_r = "F:/MTCNN/test/rnet.pth"
-    para_o = "F:/MTCNN/test/onet.pth"
-    i = 0
-    while i < 25:
-        test_img = "F:/MTCNN/test/{}.jpg".format(i)
-        print("\ntest - {} :".format(i+1))
-        print("**************************************************")
-        try:
-            test = Test(para_p, para_r, para_o, test_img)
-            test.o()
-            i += 1
-        except:
-            print("No faces found! Please check your code!!!")
-            i += 1
+    FILE = "F:/MTCNN/test/video2.mp4"
+    FUNC = Test
+    utils.show(FILE, FUNC, 15)
+
+
 
 
 

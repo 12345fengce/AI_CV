@@ -1,5 +1,7 @@
 # -*-coding:utf-8-*-
+import os
 import cv2
+import time
 import numpy as np
 import torchvision.transforms as tf
 
@@ -48,12 +50,10 @@ def NMS(boxes, threshold=0.3, ismin=False):
 
 
 def transform(offset, landmark, coordinate):
-    """transform offset to original coordinates
-        offset: numpy.ndarray
-        coordinates: numpy.ndarray"""
-    side_len = (coordinate[:, 2]-coordinate[:, 0]).reshape(-1, 1)  # slice will keep ndim=2
+    "将偏移量转换为框坐标"
+    side_len = (coordinate[:, 2:3]-coordinate[:, 0:1])
     offset = (coordinate-offset*side_len).astype(int)
-    x, y = coordinate[:, -2].reshape(-1, 1), coordinate[:, -1].reshape(-1, 1)
+    x, y = coordinate[:, 2:3], coordinate[:, 3:]
     landmark[:, ::2] = x-landmark[:, ::2]*side_len
     landmark[:, 1::2] = y-landmark[:, 1::2]*side_len
     return offset, landmark
@@ -67,7 +67,7 @@ def crop_to_square(coordinates, size, image):
     priors = []
     data = []
     x_centre, y_centre = (coordinates[:, 0]+coordinates[:, 2])/2, (coordinates[:, 1]+coordinates[:, 3])/2  # 计算中心点
-    side_max = np.maximum(coordinates[:, 2]-coordinates[:, 0], coordinates[:, 3]-coordinates[:, 1])  # 根据最大边重新构建方形候选项  
+    side_max = np.maximum(coordinates[:, 2]-coordinates[:, 0], coordinates[:, 3]-coordinates[:, 1])  # 根据最大边重新构建方形候选项
     coordinates[:, 0] = (x_centre-side_max/2).astype(int)
     coordinates[:, 1] = (y_centre-side_max/2).astype(int)
     coordinates[:, 2] = (x_centre+side_max/2).astype(int)
@@ -97,9 +97,51 @@ def draw(coordinates, img_path:str, net:str):
                 if i % 2 != 0:
                     cv2.circle(img, (landmark[i-1], point), 1, (0, 0, 255))
         cv2.imshow("{}".format(net), img)
-        cv2.waitKey(0)
+        cv2.waitKey(3000)
         cv2.destroyAllWindows()
         
+
+def show(file: str, func: str, frame: int):
+    video = cv2.VideoCapture(file)
+    f = 1
+    while video.isOpened():
+        _, image = video.read()
+        start_time = time.time()
+        try:
+            coordinates = func(image).o()
+            for tangle in coordinates:
+                tangle, confi, landmark = tangle[:4].astype(int), tangle[4], tangle[5:].astype(int)
+                if max(landmark[::2]) > tangle[2] or min(landmark[::2]) < tangle[0] or \
+                        max(landmark[1::2]) > tangle[3] or min(landmark[1::2]) < tangle[1]:
+                    continue
+                cv2.rectangle(image, (tangle[0], tangle[1]), (tangle[2], tangle[3]), (0, 0, 255), 1)
+                cv2.putText(image, str(confi), (tangle[0], tangle[1]), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 0, 0), 1)
+                for i, point in enumerate(landmark):
+                    if i % 2 != 0:
+                        cv2.circle(image, (landmark[i - 1], point), 1, (0, 0, 255))
+            cv2.imshow("", image)
+            k = cv2.waitKey(1000//frame)
+        except:
+            cv2.imshow("", image)
+            k = cv2.waitKey(1000 // frame)
+        finally:
+            end_time = time.time()
+            print("Frame - {}: time - {}ms".format(f, (end_time-start_time)*1000))
+            f += 1
+            if (k & 0xff == ord('q')):
+                break
+    video.release()
+    cv2.destroyAllWindows()
+
+
+if __name__ == '__main__':
+    path = "F:/MTCNN/test/0.jpg"
+    img = Image.open(path)
+    _img = cv2.imread(path)
+    _img = _img[:, :, [2, 1, 0]]
+    print(np.array(img))
+    print(_img)
+
 
 
 
