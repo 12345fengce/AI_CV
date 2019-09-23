@@ -1,6 +1,6 @@
 # -*- coding:utf-8 -*-
 import os
-import net
+import cnet
 import torch
 import dataset
 import torch.nn as nn
@@ -15,14 +15,15 @@ class Trainer:
         # device
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         # data
-        self.train = data.DataLoader(dataset.mydata, batch_size=dataset.BATCH_SIZE, shuffle=True, drop_last=True)
+        self.train = data.DataLoader(dataset.TRAIN, batch_size=dataset.BATCH_SIZE, shuffle=True, drop_last=True)
+        self.test = data.DataLoader(dataset.TEST, batch_size=dataset.BATCH_SIZE, shuffle=True, drop_last=True)
         # net
-        self.generator = net.GenNet().apply(net.weights_init).to(self.device)
-        self.arbiter = net.ArbiNet().apply(net.weights_init).to(self.device)
-        if len(os.listdir("./params")) > 1:
+        self.generator = cnet.GenNet().apply(cnet.weights_init).to(self.device)
+        self.arbiter = cnet.ArbiNet().apply(cnet.weights_init).to(self.device)
+        if len(os.listdir("./params")) > 2:
             print("Loading ... ...")
-            self.generator.load_state_dict(torch.load("./params/gen.pkl"))
-            self.arbiter.load_state_dict(torch.load("./params/ari.pkl"))
+            self.generator.load_state_dict(torch.load("./params/gen.pcl"))
+            self.arbiter.load_state_dict(torch.load("./params/ari.pcl"))
         # optimize
         self.g_opt = optim.Adam(self.generator.parameters(), lr=2e-4, betas=(0.5, 0.999))
         self.a_opt = optim.Adam(self.arbiter.parameters(), lr=2e-4, betas=(0.5, 0.999))
@@ -34,9 +35,9 @@ class Trainer:
     def main(self):
         for epoche in range(150):
             print("epoche >>> {}".format(epoche))
-            for i, tx in enumerate(self.train):
+            for i, (tx, t) in enumerate(self.train):
                 # label
-                tl = torch.ones((dataset.BATCH_SIZE, 1, 1, 1)).to(self.device)
+                tl = torch.zeros((tx.size(0), 10)).scatter_(1, t.view(-1, 1), 1)
                 fl = torch.zeros((dataset.BATCH_SIZE, 1, 1, 1)).to(self.device)
                 # arbiter data
                 tx = tx.to(self.device)
@@ -69,8 +70,8 @@ class Trainer:
                 self.write.add_scalar("g_loss", g_loss.item(), i)
 
             # save
-            torch.save(self.arbiter.state_dict(), "./params/ari.pkl")
-            torch.save(self.generator.state_dict(), "./params/gen.pkl")
+            torch.save(self.arbiter.state_dict(), "./params/ari.pcl")
+            torch.save(self.generator.state_dict(), "./params/gen.pcl")
             save_image(tx.cpu().data, "./img/True_{}.png".format(epoche), nrow=8)
             save_image(gx.cpu().data, "./img/False_{}.png".format(epoche), nrow=8)
 

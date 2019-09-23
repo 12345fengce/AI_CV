@@ -1,0 +1,1295 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="c2c15dbf-7c6a-4266-958c-b10a841ec02b" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/YoLoV3/cfg.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/YoLoV3/train.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mtcnn_review/p_train.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mtcnn_review/params/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mtcnn_review/r_train.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mtcnn_review/train.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.vscode/launch.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Arcface/ArcLoss.py" beforeDir="false" afterPath="$PROJECT_DIR$/Arcface/ArcLoss.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Arcface/Atrainer.py" beforeDir="false" afterPath="$PROJECT_DIR$/Arcface/Atrainer.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Arcface/Ctrainer.py" beforeDir="false" afterPath="$PROJECT_DIR$/Arcface/Ctrainer.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Arcface/dataset.py" beforeDir="false" afterPath="$PROJECT_DIR$/Arcface/dataset.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GAN/c_train.py" beforeDir="false" afterPath="$PROJECT_DIR$/GAN/c_train.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GAN/cnet.py" beforeDir="false" afterPath="$PROJECT_DIR$/GAN/cnet.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GAN/dataset.py" beforeDir="false" afterPath="$PROJECT_DIR$/GAN/dataset.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GAN/net.py" beforeDir="false" afterPath="$PROJECT_DIR$/GAN/net.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MTCNN/net.py" beforeDir="false" afterPath="$PROJECT_DIR$/MTCNN/net.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MTCNN/onet_train.py" beforeDir="false" afterPath="$PROJECT_DIR$/MTCNN/onet_train.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MTCNN/test01.py" beforeDir="false" afterPath="$PROJECT_DIR$/MTCNN/test01.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MTCNN/test02.py" beforeDir="false" afterPath="$PROJECT_DIR$/MTCNN/test02.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MTCNN/train.py" beforeDir="false" afterPath="$PROJECT_DIR$/MTCNN/train.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MTCNN/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/MTCNN/utils.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RNN/Attention/dataset.py" beforeDir="false" afterPath="$PROJECT_DIR$/RNN/Attention/dataset.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RNN/Attention/net.py" beforeDir="false" afterPath="$PROJECT_DIR$/RNN/Attention/net.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RNN/Attention/test.py" beforeDir="false" afterPath="$PROJECT_DIR$/RNN/Attention/test.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RNN/Attention/train.py" beforeDir="false" afterPath="$PROJECT_DIR$/RNN/Attention/train.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RNN/BERT/huffman.py" beforeDir="false" afterPath="$PROJECT_DIR$/RNN/BERT/huffman.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RNN/CBOW/dataset.py" beforeDir="false" afterPath="$PROJECT_DIR$/RNN/CBOW/dataset.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RNN/CBOW/train.py" beforeDir="false" afterPath="$PROJECT_DIR$/RNN/CBOW/train.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RNN/MNIST/net.py" beforeDir="false" afterPath="$PROJECT_DIR$/RNN/MNIST/net.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RNN/MNIST/train.py" beforeDir="false" afterPath="$PROJECT_DIR$/RNN/MNIST/train.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RNN/Seq2Seq/dataset.py" beforeDir="false" afterPath="$PROJECT_DIR$/RNN/Seq2Seq/dataset.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RNN/Seq2Seq/net.py" beforeDir="false" afterPath="$PROJECT_DIR$/RNN/Seq2Seq/net.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RNN/Seq2Seq/test.py" beforeDir="false" afterPath="$PROJECT_DIR$/RNN/Seq2Seq/test.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RNN/Seq2Seq/train.py" beforeDir="false" afterPath="$PROJECT_DIR$/RNN/Seq2Seq/train.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RNN/Verify/dataset.py" beforeDir="false" afterPath="$PROJECT_DIR$/RNN/Verify/dataset.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RNN/Verify/net.py" beforeDir="false" afterPath="$PROJECT_DIR$/RNN/Verify/net.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RNN/Verify/test.py" beforeDir="false" afterPath="$PROJECT_DIR$/RNN/Verify/test.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RNN/Verify/train.py" beforeDir="false" afterPath="$PROJECT_DIR$/RNN/Verify/train.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ReinForce/reward.py" beforeDir="false" afterPath="$PROJECT_DIR$/ReinForce/reward.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Signal/dataset.py" beforeDir="false" afterPath="$PROJECT_DIR$/Signal/dataset.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Signal/net.py" beforeDir="false" afterPath="$PROJECT_DIR$/Signal/net.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Signal/train.py" beforeDir="false" afterPath="$PROJECT_DIR$/Signal/train.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/StyleGan/dataset.py" beforeDir="false" afterPath="$PROJECT_DIR$/StyleGan/dataset.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/VAE/dataset.py" beforeDir="false" afterPath="$PROJECT_DIR$/VAE/dataset.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/VAE/net.py" beforeDir="false" afterPath="$PROJECT_DIR$/VAE/net.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/VAE/train.py" beforeDir="false" afterPath="$PROJECT_DIR$/VAE/train.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YoLoV3/cocoset.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YoLoV3/dataset.py" beforeDir="false" afterPath="$PROJECT_DIR$/YoLoV3/dataset.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YoLoV3/draw.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YoLoV3/net.py" beforeDir="false" afterPath="$PROJECT_DIR$/YoLoV3/net.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YoLoV3/run.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YoLoV3/test.py" beforeDir="false" afterPath="$PROJECT_DIR$/YoLoV3/test.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YoLoV3/trainer.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YoLoV3/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/YoLoV3/utils.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mtcnn_review/cfg.py" beforeDir="false" afterPath="$PROJECT_DIR$/mtcnn_review/cfg.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mtcnn_review/dataset.py" beforeDir="false" afterPath="$PROJECT_DIR$/mtcnn_review/dataset.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mtcnn_review/functions.py" beforeDir="false" afterPath="$PROJECT_DIR$/mtcnn_review/functions.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mtcnn_review/net.py" beforeDir="false" afterPath="$PROJECT_DIR$/mtcnn_review/net.py" afterDir="false" />
+    </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/YoLoV3/train.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-634">
+              <caret line="38" column="47" selection-start-line="38" selection-start-column="30" selection-end-line="38" selection-end-column="47" />
+              <folding>
+                <element signature="e#4052#4092#0" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>random</find>
+      <find>numpy()</find>
+      <find>o_path</find>
+      <find>img_file</find>
+      <find>G:/for_MTCNN</find>
+      <find>RnnNet</find>
+      <find>_gru</find>
+      <find>print</find>
+      <find>validation</find>
+      <find>net</find>
+      <find>CenterLoss</find>
+      <find>net.</find>
+      <find>fs</find>
+      <find>random.random</find>
+      <find>_offset</find>
+      <find>losso_out</find>
+      <find>loss_c</find>
+      <find>loss_o</find>
+      <find>o_out</find>
+      <find>branch</find>
+      <find>__midx</find>
+      <find>121</find>
+      <find>_cout</find>
+      <find>utils</find>
+      <find>math</find>
+    </findStrings>
+    <replaceStrings>
+      <replace />
+      <replace>para_o</replace>
+      <replace>test_img</replace>
+      <replace>F:/MTCNN</replace>
+      <replace>LstmNet</replace>
+      <replace>_encoder</replace>
+      <replace>test</replace>
+      <replace>CenterLoss</replace>
+      <replace>ArcLoss</replace>
+      <replace>CenterLoss.</replace>
+      <replace>fx</replace>
+      <replace>random.uniform</replace>
+      <replace>o_out</replace>
+      <replace>loss_offset</replace>
+      <replace>closs</replace>
+      <replace>oloss</replace>
+      <replace>oout</replace>
+      <replace>_Oout</replace>
+      <replace>_Cout</replace>
+    </replaceStrings>
+  </component>
+  <component name="Git.Settings">
+    <option name="ROOT_SYNC" value="DONT_SYNC" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/YoLoV3/test.py" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/YoLoV3/net.py" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/YoLoV3/train.py" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/Arcface/CenterLoss.py" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/VAE/net.py" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/Arcface/Ctrainer.py" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/VAE/dataset.py" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/mtcnn_review/train.py" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/RNN/Verify/train.py" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/MTCNN/dataprocess.py" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/MTCNN/onet_train.py" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/RNN/MNIST/verify.py" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/RNN/Attention/train.py" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/YoLoV3/utils.py" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/MTCNN/rnet_train.py" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/RNN/Verify/net.py" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/MTCNN/dataset.py" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/MTCNN/net.py" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/RNN/Verify/dataset.py" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/MTCNN/utils.py" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/RNN/Attention/dataset.py" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/GAN/c_train.py" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/YoLoV3/dataset.py" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/MTCNN/test01.py" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/RNN/Attention/net.py" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/MTCNN/test02.py" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/MTCNN/pnet_train.py" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/Signal/train.py" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/RNN/Seq2Seq/test.py" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/RNN/Attention/test.py" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/mtcnn_review/p_train.py" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/mtcnn_review/r_train.py" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/Signal/net.py" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/StyleGan/dataset.py" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/Signal/dataset.py" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/RNN/CBOW/train.py" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/MTCNN/train.py" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/VAE/train.py" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/RNN/CBOW/cbownet.py" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/Arcface/ArcLoss.py" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/RNN/CBOW/dataset.py" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/Arcface/Atrainer.py" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/RNN/MNIST/train.py" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/RNN/Seq2Seq/dataset.py" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/RNN/Seq2Seq/train.py" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/RNN/MNIST/dataset.py" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/RNN/MNIST/net.py" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/mtcnn_review/dataset.py" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/mtcnn_review/functions.py" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/RNN/Verify/test.py" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/RNN/BERT/huffman.py" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/mtcnn_review/cfg.py" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/RNN/Seq2Seq/net.py" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/mtcnn_review/net.py" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/ReinForce/reward.py" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/GAN/dc_train.py" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/GAN/dataset.py" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/GAN/net.py" root0="SKIP_INSPECTION" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/Signal/train.py" />
+        <option value="$PROJECT_DIR$/RNN/Seq2Seq/dataset.py" />
+        <option value="$PROJECT_DIR$/RNN/Seq2Seq/net.py" />
+        <option value="$PROJECT_DIR$/RNN/Seq2Seq/train.py" />
+        <option value="$PROJECT_DIR$/RNN/CBOW/net.py" />
+        <option value="$PROJECT_DIR$/RNN/CBOW/dataset.py" />
+        <option value="$PROJECT_DIR$/RNN/CBOW/skipnet.py" />
+        <option value="$PROJECT_DIR$/RNN/CBOW/train.py" />
+        <option value="$PROJECT_DIR$/Arcface/dataset.py" />
+        <option value="$PROJECT_DIR$/VAE/dataset.py" />
+        <option value="$PROJECT_DIR$/VAE/train.py" />
+        <option value="$PROJECT_DIR$/VAE/net.py" />
+        <option value="$PROJECT_DIR$/Arcface/trainer.py" />
+        <option value="$PROJECT_DIR$/Arcface/net.py" />
+        <option value="$PROJECT_DIR$/Arcface/Atrainer.py" />
+        <option value="$PROJECT_DIR$/Arcface/Ctrainer.py" />
+        <option value="$PROJECT_DIR$/Arcface/ArcLoss.py" />
+        <option value="$PROJECT_DIR$/GAN/net.py" />
+        <option value="$PROJECT_DIR$/GAN/train.py" />
+        <option value="$PROJECT_DIR$/GAN/cnet.py" />
+        <option value="$PROJECT_DIR$/GAN/dataset.py" />
+        <option value="$PROJECT_DIR$/GAN/dc_train.py" />
+        <option value="$PROJECT_DIR$/GAN/c_train.py" />
+        <option value="$PROJECT_DIR$/mtcnn_review/tools.py" />
+        <option value="$PROJECT_DIR$/MTCNN/trainer.py" />
+        <option value="$PROJECT_DIR$/ReinForce/reward.py" />
+        <option value="$PROJECT_DIR$/MTCNN/rnet_train.py" />
+        <option value="$PROJECT_DIR$/MTCNN/dataset.py" />
+        <option value="$PROJECT_DIR$/StyleGan/dataset.py" />
+        <option value="$PROJECT_DIR$/MTCNN/test02.py" />
+        <option value="$PROJECT_DIR$/MTCNN/net.py" />
+        <option value="$PROJECT_DIR$/MTCNN/utils.py" />
+        <option value="$PROJECT_DIR$/MTCNN/train.py" />
+        <option value="$PROJECT_DIR$/MTCNN/onet_train.py" />
+        <option value="$PROJECT_DIR$/mtcnn_review/functions.py" />
+        <option value="$PROJECT_DIR$/mtcnn_review/net.py" />
+        <option value="$PROJECT_DIR$/YoLoV3/run.py" />
+        <option value="$PROJECT_DIR$/mtcnn_review/dataset.py" />
+        <option value="$PROJECT_DIR$/mtcnn_review/cfg.py" />
+        <option value="$PROJECT_DIR$/mtcnn_review/Plog.txt" />
+        <option value="$PROJECT_DIR$/mtcnn_review/p_train.py" />
+        <option value="$PROJECT_DIR$/mtcnn_review/r_train.py" />
+        <option value="$PROJECT_DIR$/mtcnn_review/train.py" />
+        <option value="$PROJECT_DIR$/MTCNN/test01.py" />
+        <option value="$PROJECT_DIR$/YoLoV3/trainer.py" />
+        <option value="$PROJECT_DIR$/YoLoV3/dataset.py" />
+        <option value="$PROJECT_DIR$/YoLoV3/net.py" />
+        <option value="$PROJECT_DIR$/YoLoV3/train.py" />
+        <option value="$PROJECT_DIR$/YoLoV3/test.py" />
+        <option value="$PROJECT_DIR$/YoLoV3/cfg.py" />
+        <option value="$PROJECT_DIR$/YoLoV3/utils.py" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectFrameBounds" extendedState="7">
+    <option name="x" value="211" />
+    <option name="y" value="78" />
+    <option name="width" value="1400" />
+    <option name="height" value="1000" />
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectView">
+    <navigator proportions="" version="1">
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="Code" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Code" type="47feb1d3:ProjectViewModuleNode" />
+            </path>
+            <path>
+              <item name="Code" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Code" type="47feb1d3:ProjectViewModuleNode" />
+              <item name="Code" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Code" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Code" type="47feb1d3:ProjectViewModuleNode" />
+              <item name="Code" type="462c0819:PsiDirectoryNode" />
+              <item name="YoLoV3" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="Scope" />
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="last_directory_selection" value="D:/Pytorch/pycocotools-2.0.0/pycocotools" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/mtcnn_review" />
+    <property name="settings.editor.selected.configurable" value="settings.github" />
+  </component>
+  <component name="PyConsoleOptionsProvider">
+    <option name="myPythonConsoleState">
+      <console-settings module-name="Code" is-module-sdk="true">
+        <option name="myUseModuleSdk" value="true" />
+        <option name="myModuleName" value="Code" />
+      </console-settings>
+    </option>
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="G:\Project\Code\RNN\Seq2Seq" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="G:\Project\Code\mtcnn_review" />
+      <recent name="G:\Project\Code\MTCNN" />
+      <recent name="G:\Project\Code\GAN" />
+      <recent name="G:\Project\Code\Arcface" />
+      <recent name="G:\Project\Code\VAE" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager" selected="Python.test">
+    <configuration name="cfg" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="Code" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/YoLoV3" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/YoLoV3/cfg.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="dataset (1)" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="Code" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/YoLoV3" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/YoLoV3/dataset.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="dataset (2)" type="PythonConfigurationType" factoryName="Python">
+      <module name="Code" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/mtcnn_review" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/mtcnn_review/dataset.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="dataset" type="PythonConfigurationType" factoryName="Python">
+      <module name="Code" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/RNN/Verify" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/RNN/Verify/dataset.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="net (1)" type="PythonConfigurationType" factoryName="Python">
+      <module name="Code" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/RNN/Verify" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/RNN/Verify/net.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="net (3)" type="PythonConfigurationType" factoryName="Python">
+      <module name="Code" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Arcface" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="G:\Project\Code\Arcface\CenterLoss.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="net" type="PythonConfigurationType" factoryName="Python">
+      <module name="Code" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/RNN/Seq2Seq" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/RNN/Seq2Seq/net.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="onet_train" type="PythonConfigurationType" factoryName="Python">
+      <module name="Code" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/MTCNN" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/MTCNN/onet_train.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="test" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="Code" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/YoLoV3" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/YoLoV3/test.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="test01" type="PythonConfigurationType" factoryName="Python">
+      <module name="Code" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/MTCNN" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/MTCNN/test01.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="test02" type="PythonConfigurationType" factoryName="Python">
+      <module name="Code" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/MTCNN" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/MTCNN/test02.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="train (1)" type="PythonConfigurationType" factoryName="Python">
+      <module name="Code" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/RNN/Seq2Seq" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/RNN/Seq2Seq/train.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="train (2)" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="Code" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/YoLoV3" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/YoLoV3/train.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="train (3)" type="PythonConfigurationType" factoryName="Python">
+      <module name="Code" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Signal" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Signal/train.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="train" type="PythonConfigurationType" factoryName="Python">
+      <module name="Code" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/RNN/Verify" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/RNN/Verify/train.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="trainer" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="Code" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/YoLoV3" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="G:\Project\Code\YoLoV3\train.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="utils" type="PythonConfigurationType" factoryName="Python">
+      <module name="Code" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/MTCNN" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/MTCNN/utils.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.test" />
+        <item itemvalue="Python.train (2)" />
+        <item itemvalue="Python.dataset (1)" />
+        <item itemvalue="Python.cfg" />
+        <item itemvalue="Python.trainer" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="c2c15dbf-7c6a-4266-958c-b10a841ec02b" name="Default Changelist" comment="" />
+      <created>1563956648661</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1563956648661</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="TodoView">
+    <todo-panel id="selected-file">
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <editor active="true" />
+    <layout>
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.18934599" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32934782" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.32717392" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.31086957" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" weight="0.32934782" />
+      <window_info anchor="bottom" id="Version Control" order="7" weight="0.32826087" />
+      <window_info anchor="bottom" id="Terminal" order="8" weight="0.22934783" />
+      <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
+      <window_info anchor="bottom" id="Python Console" order="10" weight="0.26956522" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.2497332" />
+    </layout>
+    <layout-to-restore>
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.17194092" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32934782" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.35869566" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.42282608" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" weight="0.32934782" />
+      <window_info anchor="bottom" id="Version Control" order="7" weight="0.32826087" />
+      <window_info anchor="bottom" id="Terminal" order="8" weight="0.3619565" />
+      <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
+      <window_info anchor="bottom" id="Python Console" order="10" weight="0.3630435" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.2497332" />
+    </layout-to-restore>
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="RECENTLY_FILTERED_USER_GROUPS">
+                <collection />
+              </option>
+              <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
+                <collection />
+              </option>
+              <option name="COLUMN_ORDER">
+                <list>
+                  <option value="0" />
+                  <option value="1" />
+                  <option value="2" />
+                  <option value="3" />
+                </list>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="RECENT_FILTERS">
+      <map>
+        <entry key="Branch">
+          <value>
+            <list />
+          </value>
+        </entry>
+        <entry key="User">
+          <value>
+            <list />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/YoLoV3/utils.py</url>
+          <line>1</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+    <watches-manager>
+      <configuration name="PythonConfigurationType">
+        <watch expression="net" language="Python" />
+        <watch expression="net.branch[0]" language="Python" />
+        <watch expression="net.branch[0]" language="Python" />
+        <watch expression="net.branch[0]._modules['conv'][0].weight" language="Python" />
+      </configuration>
+    </watches-manager>
+  </component>
+  <component name="debuggerHistoryManager">
+    <expressions id="watch">
+      <expression>
+        <expression-string>net.branch[0]._modules['conv'][0].weight</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>net.branch[0]._modules.get('conv')[0].weight</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>net.branch[0]._modules.get('conv')[0]</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>net.branch[0]._modules.get('conv')</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>net.branch[0]._modules.keys()</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>net.branch[0]._modules</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>net.branch[0]._modules.get('1')</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>net.branch[0]._modules.get(1)</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>net.branch[0]._modules.get('0')</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>net.branch[0]._modules.get(0)</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+    </expressions>
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://D:/Anaconda/Lib/site-packages/torch/nn/modules/module.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="497">
+          <caret line="546" selection-start-line="546" selection-end-line="546" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MTCNN/net.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="543">
+          <caret line="100" column="27" lean-forward="true" selection-start-line="100" selection-start-column="27" selection-end-line="100" selection-end-column="27" />
+          <folding>
+            <element signature="e#85#1284#0" />
+            <element signature="e#1314#2976#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MTCNN/dataset.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="402">
+          <caret line="57" selection-start-line="57" selection-end-line="57" />
+          <folding>
+            <element signature="e#21#30#0" expanded="true" />
+            <element signature="e#1243#1601#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/StyleGan/dataset.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="376">
+          <caret line="20" column="11" selection-start-line="20" selection-start-column="11" selection-end-line="20" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ReinForce/reward.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="567">
+          <caret line="21" column="21" lean-forward="true" selection-start-line="21" selection-start-column="21" selection-end-line="21" selection-end-column="21" />
+          <folding>
+            <element signature="e#23#35#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Arcface/Atrainer.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="106">
+          <caret line="78" column="27" selection-start-line="78" selection-start-column="19" selection-end-line="78" selection-end-column="27" />
+          <folding>
+            <element signature="e#21#30#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Arcface/ArcLoss.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1269">
+          <caret line="57" column="38" selection-start-line="57" selection-start-column="38" selection-end-line="57" selection-end-column="38" />
+          <folding>
+            <element signature="e#23#35#0" expanded="true" />
+            <element signature="e#142#633#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Arcface/Ctrainer.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1166">
+          <caret line="34" column="58" selection-start-line="34" selection-start-column="58" selection-end-line="34" selection-end-column="58" />
+          <folding>
+            <element signature="e#21#30#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Arcface/CenterLoss.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1099">
+          <caret line="6" selection-start-line="6" selection-end-line="43" selection-end-column="32" />
+          <folding>
+            <element signature="e#140#631#0" />
+            <element signature="e#1753#1781#0" />
+            <element signature="e#2650#2678#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://D:/Anaconda/Lib/site-packages/torch/nn/init.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="211">
+          <caret line="452" column="27" lean-forward="true" selection-start-line="452" selection-start-column="27" selection-end-line="452" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/GAN/cnet.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="945">
+          <caret line="67" column="4" selection-start-line="67" selection-start-column="4" selection-end-line="67" selection-end-column="50" />
+          <folding>
+            <element signature="e#107#575#0" />
+            <element signature="e#610#1107#0" />
+            <element signature="e#1151#1798#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MTCNN/onet_train.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="5" column="21" selection-start-line="5" selection-start-column="21" selection-end-line="5" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mtcnn_review/net.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="246">
+          <caret line="19" column="10" selection-start-line="19" selection-start-column="6" selection-end-line="19" selection-end-column="10" />
+          <folding>
+            <element signature="e#21#33#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/YoLoV3/cocoset.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mtcnn_review/dataset.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="347">
+          <caret line="76" column="50" lean-forward="true" selection-start-line="76" selection-start-column="50" selection-end-line="76" selection-end-column="50" />
+          <folding>
+            <element signature="e#3509#4935#0" />
+            <element signature="e#4960#5863#0" />
+            <element signature="e#5898#7178#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mtcnn_review/log.txt" />
+    <entry file="file://$PROJECT_DIR$/Signal/net.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-426" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/RNN/Seq2Seq/net.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1776" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/VAE/net.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2565">
+          <caret line="97" column="35" lean-forward="true" selection-start-line="97" selection-start-column="35" selection-end-line="97" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/RNN/MNIST/net.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="675">
+          <caret line="26" column="26" lean-forward="true" selection-start-line="26" selection-start-column="26" selection-end-line="26" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/RNN/Verify/net.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/RNN/Attention/net.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1998">
+          <caret line="75" column="27" lean-forward="true" selection-start-line="75" selection-start-column="27" selection-end-line="75" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/RNN/Attention/train.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-648">
+          <caret line="20" column="37" selection-start-line="20" selection-start-column="37" selection-end-line="20" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/RNN/CBOW/train.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-318" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/RNN/MNIST/train.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-729" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/RNN/Seq2Seq/train.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="324">
+          <caret line="51" column="36" lean-forward="true" selection-start-line="51" selection-start-column="36" selection-end-line="51" selection-end-column="36" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/RNN/Verify/train.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Signal/train.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="894">
+          <caret line="42" column="35" lean-forward="true" selection-start-line="42" selection-start-column="35" selection-end-line="42" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/VAE/train.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="621">
+          <caret line="47" column="22" selection-start-line="47" selection-start-column="22" selection-end-line="47" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/GAN/c_train.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1263" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MTCNN/train.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="217">
+          <caret line="63" column="59" lean-forward="true" selection-start-line="63" selection-start-column="59" selection-end-line="63" selection-end-column="59" />
+          <folding>
+            <element signature="e#21#30#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mtcnn_review/cfg.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="432">
+          <caret line="46" lean-forward="true" selection-start-line="46" selection-end-line="46" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mtcnn_review/Rlog.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="975">
+          <caret line="72" selection-start-line="72" selection-end-line="74" selection-end-column="48" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mtcnn_review/p_train.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="162">
+          <caret line="6" column="20" selection-start-line="6" selection-start-column="20" selection-end-line="6" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mtcnn_review/r_train.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="162">
+          <caret line="6" column="20" selection-start-line="6" selection-start-column="20" selection-end-line="6" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MTCNN/test01.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3591">
+          <caret line="145" column="32" lean-forward="true" selection-start-line="145" selection-start-column="32" selection-end-line="145" selection-end-column="32" />
+          <folding>
+            <element signature="e#23#32#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mtcnn_review/Plog.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-67">
+          <caret line="154" column="20" selection-start-line="154" selection-start-column="20" selection-end-line="154" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/.PyCharmCE2019.1/system/python_stubs/1310655275/cv2/cv2/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="265">
+          <caret line="9310" column="4" selection-start-line="9310" selection-start-column="4" selection-end-line="9310" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mtcnn_review/functions.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="27">
+          <caret line="6" column="25" lean-forward="true" selection-start-line="6" selection-start-column="25" selection-end-line="6" selection-end-column="25" />
+          <folding>
+            <element signature="e#23#32#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mtcnn_review/train.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="303">
+          <caret line="54" column="87" lean-forward="true" selection-start-line="54" selection-start-column="20" selection-end-line="54" selection-end-column="87" />
+          <folding>
+            <element signature="e#23#32#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/YoLoV3/draw.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/YoLoV3/net.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="25">
+          <caret line="19" column="28" selection-start-line="19" selection-start-column="28" selection-end-line="19" selection-end-column="28" />
+          <folding>
+            <element signature="e#105#655#0" />
+            <element signature="e#690#1194#0" />
+            <element signature="e#1235#2049#0" />
+            <element signature="e#2083#2558#0" />
+            <element signature="e#2591#6193#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://D:/Anaconda/Lib/site-packages/torch/__init__.pyi">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="197">
+          <caret line="940" column="4" selection-start-line="940" selection-start-column="4" selection-end-line="940" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/YoLoV3/run.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="324">
+          <caret line="21" column="43" lean-forward="true" selection-start-line="21" selection-start-column="43" selection-end-line="21" selection-end-column="43" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MTCNN/utils.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="432">
+          <caret line="84" column="45" selection-start-line="84" selection-start-column="45" selection-end-line="84" selection-end-column="45" />
+          <folding>
+            <element signature="e#149#874#0" />
+            <element signature="e#925#1455#0" />
+            <element signature="e#1507#1809#0" />
+            <element signature="e#1862#2796#0" />
+            <element signature="e#2853#3745#0" />
+            <element signature="e#3804#5163#0" />
+            <element signature="e#5197#5354#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/YoLoV3/utils.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="216">
+          <caret line="71" column="26" lean-forward="true" selection-start-line="71" selection-start-column="26" selection-end-line="71" selection-end-column="26" />
+          <folding>
+            <element signature="e#513#846#0" />
+            <element signature="e#593#1280#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/YoLoV3/log.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="338">
+          <caret line="52" column="30" lean-forward="true" selection-start-line="52" selection-start-column="30" selection-end-line="52" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/YoLoV3/test.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-64">
+          <caret line="60" column="29" selection-start-line="60" selection-start-column="29" selection-end-line="60" selection-end-column="29" />
+          <folding>
+            <element signature="e#21#27#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/YoLoV3/cfg.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="449">
+          <caret line="26" selection-start-line="26" selection-end-line="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/YoLoV3/dataset.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="216">
+          <caret line="79" selection-start-line="79" selection-end-line="79" />
+          <folding>
+            <element signature="e#195#951#0" />
+            <element signature="e#990#2769#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/YoLoV3/train.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-634">
+          <caret line="38" column="47" selection-start-line="38" selection-start-column="30" selection-end-line="38" selection-end-column="47" />
+          <folding>
+            <element signature="e#4052#4092#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>

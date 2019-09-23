@@ -55,7 +55,7 @@ class ArbiNet(nn.Module):
                                         Convolution(32, 64, 4, 2, 1),  # 16
                                         Convolution(64, 128, 4, 2, 1),  # 8
                                         Convolution(128, 256, 4, 2, 1),  # 4
-                                        nn.Conv2d(256, 1, 4, 1, 0),  # 1
+                                        nn.Conv2d(256, 10, 4, 1, 0),  # 1
                                         nn.Sigmoid(),
                                     )
 

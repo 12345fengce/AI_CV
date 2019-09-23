@@ -1,8 +1,8 @@
 # -*-coding:utf-8-*-
 import os
-import net
 import torch
 import dataset
+import ArcLoss
 import numpy as np
 import torch.nn as nn
 import torch.optim as optim
@@ -14,25 +14,22 @@ from torch.utils.tensorboard import SummaryWriter
 class Trainer:
     def __init__(self, path):
         # 数据集
-        self.train = data.DataLoader(dataset.train_data, batch_size=128, shuffle=True)
+        self.train = data.DataLoader(dataset.train_data, batch_size=8, shuffle=True)
         self.test = data.DataLoader(dataset.test_data, batch_size=128, shuffle=True)
         # 网络
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-        self.main_net = net.MyNet().to(self.device)
-        self.center_net = net.CenterLoss(dataset.CLS, dataset.FEATURE).to(self.device)
+        self.main_net = ArcLoss.MyNet().to(self.device)
+        self.arcloss = ArcLoss.ArcFace(dataset.FEATURE, dataset.CLS).to(self.device)
         # 网络参数读取
-        self.main_path = path+"/main.pt"
-        self.center_path = path+"/center.pt"
+        self.main_path = path+"/Amain.pt"
+        self.arcloss = path+"/ArcLoss.pt"
         if os.path.exists(self.main_path):
             self.main_net.load_state_dict(torch.load(self.main_path))
-            self.center_net.load_state_dict(torch.load(self.center_path))
+            self.arcloss.load_state_dict(torch.load(self.arcloss))
         # 优化器
         self.main_optim = optim.Adam(self.main_net.parameters())
-        self.center_optim = optim.SGD(self.center_net.parameters(), lr=0.5)
-        self.lr_step = optim.lr_scheduler.StepLR(self.center_optim, step_size=50, gamma=0.9)
-        # 损失
-        self.loss_classify = nn.CrossEntropyLoss().to(self.device)
-        self.loss_feature = net.CenterLoss(dataset.CLS, dataset.FEATURE).to(self.device)
+        self.arc_optim = optim.SGD(self.arcloss.parameters(), lr=0.5)
+        self.lr_step = optim.lr_scheduler.StepLR(self.arc_optim, step_size=50, gamma=0.9)
         self.write = SummaryWriter("./runs")
 
     def main(self, alpha=0.1):
@@ -44,15 +41,13 @@ class Trainer:
             self.lr_step.step(epoche)
             for i, (x, t) in enumerate(self.train):
                 x, t = x.to(self.device), t.to(self.device)
-                features, outputs = self.main_net(x)
-                loss_cls = self.loss_classify(outputs, t)
-                loss_feat = self.loss_feature(features, t)
-                loss = (1-alpha)*loss_cls+alpha*loss_feat
+                features = self.main_net(x)
+                loss = self.arcloss(features)
                 self.main_optim.zero_grad()
-                self.center_optim.zero_grad()
+                self.arc_optim.zero_grad()
                 loss.backward()
                 self.main_optim.step()
-                self.center_optim.step()
+                self.arc_optim.step()
                 coordinate.append(features)
                 target.append(t)
                 print("MODE - TRAIN\nLoss_cls:{} + Loss_feat:{} = Loss:{}".format(loss_cls, loss_feat, loss))

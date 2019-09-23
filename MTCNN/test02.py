@@ -2,9 +2,9 @@
 import os
 import cv2
 import net
-import time
 import torch
 import utils
+import datetime
 import numpy as np 
 import PIL.Image as Image
 import torchvision.transforms as tf
@@ -46,6 +46,7 @@ class Test:
             filter with NMS
             crop image from original image for RNet's input
             draw"""
+        start_time = datetime.datetime.now()
         r_prior, r_data = [], []  # collect RNet's prior, RNet's input
         coordinates = []  # collect coordinates for draw
         count = 0
@@ -56,7 +57,7 @@ class Test:
                 confi, offset = self.pnet(input.cuda())
             confi, offset = confi.transpose(1, -1), offset.transpose(1, -1)
 
-            mask = confi[..., 0] >= 0.9
+            mask = confi[..., 0] > 0.9
             confi = confi[mask].cpu().numpy()  # filter confi
             offset = offset[mask].cpu().numpy()  # filter offset
 
@@ -69,7 +70,7 @@ class Test:
             offset, landmarks = utils.transform(offset, landmarks, p_prior)
             
             boxes = np.hstack((offset, confi, landmarks))  # [[offset+confi+landmarks]] for NMS
-            boxes = utils.NMS(boxes, threshold=0.3, ismin=False) 
+            boxes = utils.NMS(boxes, threshold=0.7, ismin=False)
             coordinates.extend(boxes.tolist())
             if boxes.shape[0] == 0:
                 break
@@ -82,6 +83,8 @@ class Test:
 
         r_prior = np.stack(r_prior, axis=0)  
         r_data = torch.stack(r_data, dim=0)
+        end_time = datetime.datetime.now()
+        print("PNet cost {}ms".format((end_time - start_time).microseconds/1000))
         return r_data,  r_prior
         
     def r(self):
@@ -91,24 +94,27 @@ class Test:
             filter with NMS
             crop image from original image for ONet's input
             draw"""
+        start_time = datetime.datetime.now()
         data, prior = self.p()
         with torch.no_grad():
             confi, offset = self.rnet(data.cuda())
         confi = confi.cpu().numpy().flatten()
         offset = offset.cpu().numpy()
 
-        offset, prior, confi = offset[confi >= 0.99], prior[confi >= 0.99], confi[confi >= 0.99]
+        offset, prior, confi = offset[confi > 0.99], prior[confi > 0.99], confi[confi > 0.99]
 
         offset, landmarks = offset[:, :4], offset[:, 4:]
         offset, landmarks = utils.transform(offset, landmarks, prior)
 
         boxes = np.hstack((offset, np.expand_dims(confi, axis=1), landmarks))
-        boxes = utils.NMS(boxes, threshold=0.3, ismin=False)
+        boxes = utils.NMS(boxes, threshold=0.6, ismin=False)
         
         o_data, o_prior = utils.crop_to_square(boxes[:, :5], 48, self.image)
 
         o_prior = np.stack(o_prior, axis=0)  
         o_data = torch.stack(o_data, dim=0)
+        end_time = datetime.datetime.now()
+        print("RNet cost {}ms".format((end_time - start_time).microseconds/1000))
         return o_data, o_prior
     
     def o(self):
@@ -117,6 +123,7 @@ class Test:
             calculate coordinates
             filter with NMS
             draw"""
+        start_time = datetime.datetime.now()
         data, prior = self.r()
         with torch.no_grad():
             confi, offset = self.onet(data.cuda())
@@ -129,15 +136,16 @@ class Test:
         offset, landmarks = utils.transform(offset, landmarks, prior)
 
         boxes = np.hstack((offset, np.expand_dims(confi, axis=1), landmarks))  # 将偏移量与置信度结合，进行NMS
-        boxes = utils.NMS(boxes, threshold=0.3, ismin=True)
-
+        boxes = utils.NMS(boxes, threshold=0.4, ismin=True)
+        end_time = datetime.datetime.now()
+        print("ONet cost {}ms".format((end_time - start_time).microseconds/1000))
         return boxes
 
     
 if __name__ == "__main__":
     FILE = "F:/MTCNN/test/video2.mp4"
     FUNC = Test
-    utils.show(FILE, FUNC, 15)
+    utils.show(FILE, FUNC, 20)
 
 
 

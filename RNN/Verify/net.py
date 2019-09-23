@@ -8,16 +8,17 @@ import torch.nn as nn
 class EncoderNet(nn.Module):
     def __init__(self):
         super(EncoderNet, self).__init__()
-        self.linear = nn.Linear(in_features=dataset.SIZE[1], out_features=128)
-        self.gru = nn.GRU(128, dataset.SIZE[1], 1, batch_first=True)
+        self.linear = nn.Sequential(
+                                    nn.Linear(in_features=dataset.SIZE[1]*dataset.SIZE[3], out_features=128),
+                                    nn.BatchNorm1d(num_features=128),
+                                    nn.ReLU()
+                                    )
+        self.gru = nn.GRU(128, 128, 4, batch_first=True)
 
     def forward(self, x):
-        """Linear
-            transform (N, v) to (N, S, V)
-            GRU
-            transfrom (N, S, V) to (N, 1, V)"""
-        output_linear = self.linear(x)
-        input_gru = output_linear.reshape(shape=(-1, dataset.SIZE[2]*dataset.SIZE[3], 128))
+        input_linear = x.permute(0, 3, 1, 2).reshape(shape=(-1, x.size(1)*x.size(2)))
+        output_linear = self.linear(input_linear)
+        input_gru = output_linear.reshape(shape=(-1, dataset.SIZE[2], 128))
         output_gru, _ = self.gru(input_gru)
         output = output_gru[:, -1:, :]
         return output
@@ -26,15 +27,12 @@ class EncoderNet(nn.Module):
 class DecoderNet(nn.Module):
     def __init__(self):
         super(DecoderNet, self).__init__()
-        self.gru = nn.GRU(dataset.SIZE[1], 128, 1, batch_first=True)
+        self.gru = nn.GRU(128, 128, 4, batch_first=True)
         self.linear = nn.Linear(in_features=128, out_features=10)
 
     def forward(self, x):
-        """GRU
-            transform (N, S, V) to (N, V)
-            Linear
-            transform (N, V) to (N, S, V)"""
-        output_gru, _ = self.gru(x)
+        input_gru = x.expand(x.size(0), dataset.LEVEL, x.size(-1))
+        output_gru, _ = self.gru(input_gru)
         input_linear = output_gru.reshape(shape=(-1, output_gru.size(-1)))
         output_linear = self.linear(input_linear)
         output = output_linear.reshape(shape=(-1, dataset.LEVEL, output_linear.size(-1)))
@@ -42,29 +40,45 @@ class DecoderNet(nn.Module):
 
 
 class MainNet(nn.Module):
-    def __init__(self, path):
+    def __init__(self):
         super(MainNet, self).__init__()
         self.encoder = EncoderNet()
         self.decoder = DecoderNet()
-        if len(os.listdir(path)) > 2:
-            self.encoder.load_state_dict(torch.load(path+"/encoder.pkl"))
-            self.decoder.load_state_dict(torch.load(path+"/decoder.pkl"))
 
     def forward(self, x):
-        """transform x to (N, V)
-            EncoderNet
-            transform (N, 1, V) to (N, LEVEL, V)
-            DecoderNet
-            transform (N, V) to (N, LEVEL, V)"""
-        input_encoder = x.permute(0, 1, 3, 2).reshape(shape=(-1, x.size(-2)))
-        output_encoder = self.encoder(input_encoder)
-        input_decoder = output_encoder.expand(output_encoder.size(0), dataset.LEVEL, output_encoder.size(-1))
-        output_decoder = self.decoder(input_decoder)
+        output_encoder = self.encoder(x)
+        output_decoder = self.decoder(output_encoder)
         return output_decoder
 
 
-if __name__ == '__main__':
-    x = torch.Tensor(1, 3, 60, 120)
-    PATH = "G:/Project/Code/RNN/Verify/model"
-    net = MainNet(PATH)
-    print(net(x).size())
+class UnionNet(nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.linear = nn.Sequential(
+                                    nn.Linear(in_features=180, out_features=128),
+                                    nn.BatchNorm1d(num_features=128),
+                                    nn.ReLU()
+                                    )
+        self.lstm = nn.GRU(input_size=128, hidden_size=128, num_layers=5, batch_first=True)
+        self.classifier = nn.Linear(in_features=128, out_features=10)
+
+    def forward(self, x):
+        input_linear = x.permute(0, 3, 1, 2).reshape(shape=(-1, x.size(1)*x.size(2)))
+        output_linear = self.linear(input_linear)
+        input_lstm = output_linear.view(x.size(0), -1, 128)
+        output_lstm, _ = self.lstm(input_lstm)  # 省略h0, c0
+
+        input = output_lstm[:, -1:, :]
+        input_lstm2 = input.expand(x.size(0), 5, 128)
+        output_lstm2, _ = self.lstm(input_lstm2)  # 省略h0, c0
+        input_cls = output_lstm2.reshape(shape=(-1, 128))
+        output_cls = self.classifier(input_cls)
+        output = output_cls.view(x.size(0), -1, 10)
+        return output
+
+
+# if __name__ == '__main__':
+#     x = torch.Tensor(10, 3, 60, 120)
+#     net = MainNet()
+#     net = UnionNet()
+#     print(net(x).size())

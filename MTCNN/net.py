@@ -69,19 +69,19 @@ class ONet(nn.Module):
     def __init__(self):
         super(ONet, self).__init__()
         self.layer_1 = nn.Sequential(
-                                        nn.Conv2d(in_channels=3, out_channels=32, kernel_size=3, stride=1),
+                                        nn.Conv2d(in_channels=3, out_channels=32, kernel_size=3, stride=1),  # 46
                                         nn.LeakyReLU(0.1),
-                                        nn.MaxPool2d(kernel_size=3, stride=2, padding=1),
+                                        nn.MaxPool2d(kernel_size=3, stride=2, padding=1),  # 23
                                         nn.LeakyReLU(0.1),
-                                        nn.Conv2d(in_channels=32, out_channels=64, kernel_size=3, stride=1),
+                                        nn.Conv2d(in_channels=32, out_channels=64, kernel_size=3, stride=1),  # 21
                                         nn.LeakyReLU(0.1),
-                                        nn.MaxPool2d(kernel_size=3, stride=2),
+                                        nn.MaxPool2d(kernel_size=3, stride=2),  # 10
                                         nn.LeakyReLU(0.1),
-                                        nn.Conv2d(in_channels=64, out_channels=64, kernel_size=3, stride=1),
+                                        nn.Conv2d(in_channels=64, out_channels=64, kernel_size=3, stride=1),  # 8
                                         nn.LeakyReLU(0.1),
-                                        nn.MaxPool2d(kernel_size=2, stride=2),
+                                        nn.MaxPool2d(kernel_size=2, stride=2),  # 4
                                         nn.LeakyReLU(0.1),
-                                        nn.Conv2d(in_channels=64, out_channels=128, kernel_size=2, stride=1),
+                                        nn.Conv2d(in_channels=64, out_channels=128, kernel_size=2, stride=1),  # 3
                                         nn.LeakyReLU(0.1)
                                         )
         self.layer_2 = nn.Sequential(
@@ -122,28 +122,12 @@ class Regular(nn.Module):
                 regular_loss += torch.norm(param, self.p)
         return regular_loss*self.weight_decay
 
-# if __name__ == "__main__":
-#     pnet = PNet()
-#     rnet = RNet()
-    # onet = ONet()
-    # net = torch.load("F:/Project/Code/MTCNN/pnet.pth")
-    # import PIL.Image as Image
-    # import torchvision.transforms as tf 
-    # a = 0
-    # b = 1
-    # for i in range(10000):
-    #     try:
-    #         img = Image.open("F:/Project/DataSet/celebre/24/positive/{}.jpg".format(i))
-    #         data = tf.ToTensor()(img).unsqueeze(dim=0)
-    #         c, o = net(data.cuda())
-    #         if c.item() < 0.1:
-    #             a += 1
-    #         b += 1
-    #     except:
-    #         continue
-    # print("Accuracy rate: {} / {} = {}".format(a, b, 1-a/b))
-    # loss = Regular(onet)
-    # print(loss.regular_loss())
+if __name__ == "__main__":
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    x = torch.Tensor(89, 3, 48, 48).cuda()
+    onet = ONet().to(device)
+    c, y = onet(x)
+    print(c.shape, y.shape)
    
 
     

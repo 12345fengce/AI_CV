@@ -1,5 +1,6 @@
-# -*-coding:utf-8-*-
+﻿# -*-coding:utf-8-*-
 import torch
+import functions
 import torch.nn as nn
 
 
@@ -105,14 +106,7 @@ class RLoss(nn.Module):
         return regular_loss*self.weight_decay
 
 
-# if __name__ == '__main__':
-#     px = torch.Tensor(10, 3, 12, 12)
-#     p = PNet()
-#     rx = torch.Tensor(10, 3, 24, 24)
-#     r = RNet()
-#     ox = torch.Tensor(10, 3, 48, 48)
-#     o = ONet()
-#     print("PNET:{}\nRNET:{}\nONET:{}".format(p(px)[0].shape, r(rx)[1].shape, o(ox)[2].shape))
+
 
    
 

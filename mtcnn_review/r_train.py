@@ -2,6 +2,6 @@
 import train
 
 if __name__ == '__main__':
-    log = "./Plog.txt"
-    mytrain = train.MyTrain("P")
+    log = "./Rlog.txt"
+    mytrain = train.MyTrain("R")
     mytrain.run(log)

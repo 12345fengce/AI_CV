@@ -1,5 +1,6 @@
 # -*- coding:utf-8 -*-
 import torch
+import dataset
 import torch.nn as nn
 
 
@@ -40,33 +41,35 @@ class EncoderNet(nn.Module):
                                     Convolution(64, 128, 3, 2),
                                     )
         self.linear = nn.Sequential(
-                                    nn.Linear(5*5*128, 512),
-                                    nn.BatchNorm1d(512),
+                                    nn.Linear(5*5*128, 128),
+                                    nn.BatchNorm1d(128),
                                     nn.ReLU(),
-                                    nn.Linear(512, 64),
+                                    nn.Linear(128, 2),
                                      )
 
     def forward(self, x):
         output_conv = self.conv(x)
         input_linear = output_conv.reshape(shape=(output_conv.size(0), -1))
         output_linear = self.linear(input_linear)
-        return output_linear
+        sigma, miu = output_linear[:, :1], output_linear[:, 1:]
+        return sigma, miu
 
 
 class DecoderNet(nn.Module):
     def __init__(self):
         super(DecoderNet, self).__init__()
         self.linear = nn.Sequential(
-                                    nn.Linear(64, 512),
-                                    nn.BatchNorm1d(512),
+                                    nn.Linear(10, 128),
+                                    nn.BatchNorm1d(128),
                                     nn.ReLU(),
-                                    nn.Linear(512, 5*5*128),
+                                    nn.Linear(128, 5*5*128),
                                     )
         self.convtranspose = nn.Sequential(
                                             ConvTranspose(128, 64, 3, 2, 0, 0),
                                             ConvTranspose(64, 32, 3, 1, 0, 0),
                                             ConvTranspose(32, 3, 3, 2, 1, 1),
-                                            ConvTranspose(3, 1, 3, 1, 0, 0),
+                                            nn.ConvTranspose2d(3, 1, 3, 1, 0, 0),
+                                            nn.Tanh(),
                                             )
 
     def forward(self, x):
@@ -83,12 +86,16 @@ class MainNet(nn.Module):
         self.decoder = DecoderNet()
 
     def forward(self, x):
-        output_encoder = self.encoder(x)
-        output_decoder = self.decoder(output_encoder)
-        return output_decoder
+        sigma, miu = self.encoder(x)
+        mean, var = miu, torch.exp(sigma)
+        z = torch.randn((x.size(0), dataset.Z)).cuda()
+        x_ = z*torch.exp(sigma)+miu
+        xs = self.decoder(x_)
+        return mean, var, xs
 
 
 if __name__ == '__main__':
-    x = torch.Tensor(10, 1, 28, 28)
-    main = MainNet()
-    print(main(x).shape)
+    a = torch.randn((3, 1, 28, 28))
+    net = MainNet()
+    mean, var, xs = net(a)
+    print(mean, var, xs)

@@ -1,8 +1,8 @@
 # -*-coding:utf-8-*-
 import os
-import net
 import torch
 import dataset
+import CenterLoss
 import numpy as np
 import torch.nn as nn
 import torch.optim as optim
@@ -14,12 +14,12 @@ from torch.utils.tensorboard import SummaryWriter
 class Trainer:
     def __init__(self, path):
         # 数据集
-        self.train = data.DataLoader(dataset.train_data, batch_size=128, shuffle=True)
+        self.train = data.DataLoader(dataset.train_data, batch_size=8, shuffle=True)
         self.test = data.DataLoader(dataset.test_data, batch_size=128, shuffle=True)
         # 网络
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-        self.main_net = net.MyNet().to(self.device)
-        self.center_net = net.CenterLoss(dataset.CLS, dataset.FEATURE).to(self.device)
+        self.main_net = CenterLoss.MyNet().to(self.device)
+        self.center_net = CenterLoss.CenterLoss(dataset.CLS, dataset.FEATURE).to(self.device)
         # 网络参数读取
         self.main_path = path+"/main.pt"
         self.center_path = path+"/center.pt"
@@ -32,11 +32,11 @@ class Trainer:
         self.lr_step = optim.lr_scheduler.StepLR(self.center_optim, step_size=50, gamma=0.9)
         # 损失
         self.loss_classify = nn.CrossEntropyLoss().to(self.device)
-        self.loss_feature = net.CenterLoss(dataset.CLS, dataset.FEATURE).to(self.device)
+        self.loss_feature = CenterLoss.CenterLoss(dataset.CLS, dataset.FEATURE).to(self.device)
         self.write = SummaryWriter("./runs")
 
-    def main(self, alpha=0.1):
-        for epoche in range(200):
+    def main(self, alpha=0.5):
+        for epoche in range(2000):
             coordinate, target = [], []
             print("[epoche] - {}:".format(epoche))
             # 训练

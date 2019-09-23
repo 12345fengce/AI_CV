@@ -12,7 +12,7 @@ class Train:
     def __init__(self, parameter:str):
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         self.parameter = parameter
-        self.net = net.RnnNet().to(self.device)
+        self.net = net.LstmNet().to(self.device)
         if os.path.exists(parameter):
             print("Loading ... ...")
             self.net.load_state_dict(torch.load(parameter))
@@ -53,7 +53,7 @@ class Train:
 
 
 if __name__ == '__main__':
-    para = "G:/Project/Code/RNN/MNIST/rnn.pt"
+    para = "G:/Project/Code/RNN/MNIST/lstm.pkl"
     trainer = Train(para)
     trainer.main()
 

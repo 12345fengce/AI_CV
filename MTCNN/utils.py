@@ -97,7 +97,7 @@ def draw(coordinates, img_path:str, net:str):
                 if i % 2 != 0:
                     cv2.circle(img, (landmark[i-1], point), 1, (0, 0, 255))
         cv2.imshow("{}".format(net), img)
-        cv2.waitKey(3000)
+        cv2.waitKey(0)
         cv2.destroyAllWindows()
         
 

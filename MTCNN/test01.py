@@ -18,7 +18,6 @@ class Test:
         self.device = torch.device("cuda")
         self.test_img = test_img
         self.image = Image.open(test_img)  # 用于抠图输入下一层
-        print(np.array(self.image))
         self.img = Image.open(test_img)  # 复制图片用于图像金字塔
 
         self.pnet = net.PNet().to(self.device)
@@ -71,7 +70,7 @@ class Test:
             offset, landmarks = utils.transform(offset, landmarks, p_prior)
             
             boxes = np.hstack((offset, np.expand_dims(confi, axis=1), landmarks))  # 将偏移量与置信度结合，进行NMS
-            boxes = utils.NMS(boxes, threshold=0.3, ismin=False) 
+            boxes = utils.NMS(boxes, threshold=0.7, ismin=False)
             coordinates.extend(boxes.tolist())
             if boxes.shape[0] == 0:
                 break
@@ -109,7 +108,7 @@ class Test:
         offset, landmarks = utils.transform(offset, landmarks, prior)
 
         boxes = np.hstack((offset, np.expand_dims(confi, axis=1), landmarks))
-        boxes = utils.NMS(boxes, threshold=0.3, ismin=False)
+        boxes = utils.NMS(boxes, threshold=0.6, ismin=False)
 
         o_data, o_prior = utils.crop_to_square(boxes[:, :5], 48, self.image)
 
@@ -135,7 +134,7 @@ class Test:
         offset, landmarks = utils.transform(offset, landmarks, prior)
 
         boxes = np.hstack((offset, np.expand_dims(confi, axis=1), landmarks))  # 将偏移量与置信度以及landmarks结合，进行NMS
-        boxes = utils.NMS(boxes, threshold=0.3, ismin=True)
+        boxes = utils.NMS(boxes, threshold=0.4, ismin=True)
 
         print("ONet create {} candidate items".format(boxes.shape[0]))
         utils.draw(boxes, self.test_img, "ONet")
@@ -145,7 +144,7 @@ if __name__ == "__main__":
     p_path = "./params/pnet.pkl"
     r_path = "./params/rnet.pkl"
     o_path = "./params/onet.pkl"
-    i = 0
+    i = 24
     while i < 31:
         test_img = "F:/MTCNN/test/{}.jpg".format(i)
         print("\ntest - {} :".format(i+1))

@@ -36,7 +36,7 @@ class Generate:
                 color = tuple(np.random.randint(120, 255, 3))  # pixes's value range of nums
                 txt = chr(np.random.randint(48, 58))  # ascii of 0-9
                 text += str(txt)
-                x, y = np.random.randint(10, 30)*j, np.random.randint(0, 20)  # coordinates of nums
+                x, y = 20*j, np.random.randint(0, 20)  # coordinates of nums
                 draw.text((x, y), txt, color, font)
             background.save(self.save+"/{}.jpg".format(text))
             if i % 100 == 0:
@@ -57,14 +57,15 @@ class MyData(data.Dataset):
         img_path = self.path+"/"+self.database[idx]
         img = Image.open(img_path)
         img = tf.ToTensor()(img)-0.5
+
         return img, label
 
 
-# if __name__ == '__main__':
+if __name__ == '__main__':
 #
 #     generation = Generate(SAVE, SIZE)
 #     generation.gen(FONT, LEVEL)
-# #
-    # PATH = "F:/RNN/Verify/test"
-    # mydata = MyData(PATH)
-    # print(mydata[0])
+
+    PATH = "F:/RNN/Verify/test"
+    mydata = MyData(PATH)
+    print(mydata[-1])
