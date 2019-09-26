@@ -78,7 +78,7 @@ class Test:
 
 
 if __name__ == '__main__':
-    file = "F:/YOLO_V3/train/000000160864.jpg"
+    file = "F:/YOLO_V3/train/000000103723.jpg"
     Test(file).predict()
         
 

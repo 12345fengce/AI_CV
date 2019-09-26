@@ -62,10 +62,6 @@ transform = tf.Compose([tf.ToTensor(), tf.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 
 
 
 def draw(boxes, path):
-    """draw on the image with boxes
-        every box has cls
-        argmax(cls)=0  sign the cat on image with red line
-        argmax(cls)=1  sign the dog on image with green line"""
     img = cv2.imread(path)
     for cbox in boxes:
         x1, y1, x2, y2, _, cls = cbox
