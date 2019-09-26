@@ -67,16 +67,16 @@ def draw(boxes, path):
         argmax(cls)=0  sign the cat on image with red line
         argmax(cls)=1  sign the dog on image with green line"""
     img = cv2.imread(path)
-    for cboxes in boxes:
-        cls = cboxes[:, -1]
-        for box in cboxes:
-            x1, y1, x2, y2, _, _ = box
-            color = (255*0.01*cls**2, 255*0.01*cls**2, 255*0.01*cls**2)
-            cv2.rectangle(img, (x1, y1), (x2, y2), color, 1)
-            cv2.putText(img, "{}".format(cfg.COCO_CLASS[cls]), (x1, y1), cv2.FONT_HERSHEY_SIMPLEX, 1.2, color, 3)
+    for cbox in boxes:
+        x1, y1, x2, y2, _, cls = cbox
+        color = (255*0.01*cls**2, 255*0.01*cls**2, 255*0.01*cls**2)
+        cv2.rectangle(img, (x1, y1), (x2, y2), color, 1)
+        cv2.putText(img, "{}".format(cfg.COCO_CLASS[cls]), (x1, y1), cv2.FONT_HERSHEY_SIMPLEX, 0.4, color, 1)
     cv2.imshow(path.split("/")[-1], img)
     cv2.waitKey(0)
     cv2.destroyAllWindows()
+
+
 
 
 

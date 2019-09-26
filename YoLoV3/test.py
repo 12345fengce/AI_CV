@@ -58,7 +58,6 @@ class Test:
         for cls in range(cls_num):
             Cboxes = boxes[boxes[:, -1] == cls]
             if len(Cboxes) != 0:
-                print(Cboxes)
                 bbox.extend(utils.nms(Cboxes).astype(int))
             else:
                 continue
@@ -79,7 +78,7 @@ class Test:
 
 
 if __name__ == '__main__':
-    file = "F:/YOLO_V3/train/000000001000.jpg"
+    file = "F:/YOLO_V3/train/000000160864.jpg"
     Test(file).predict()
         
 

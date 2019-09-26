@@ -43,7 +43,7 @@ class MyTrain:
         "Show"
         self.draw = SummaryWriter("./run")
 
-    def run(self, log: str, lower_loss=350):
+    def run(self, log: str, lower_loss=8.392644):
         with open(log, "w+") as f:
             f.write("{}\n".format(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())))
             for epoch in range(cfg.EPOCH):
