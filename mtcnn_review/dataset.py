@@ -162,7 +162,7 @@ class MyData(data.Dataset):
         self.size = size
         self.database = []
         for type in ["positive", "part", "negative"]:
-            self.target = path+"/{}/{}.txt".format(size, type)
+            self.target = path+"/{}/{}.txt".format(size[0], type)
             with open(self.target, "r") as f:
                 if mode == "train":
                     self.database.extend(f.readlines()[:-10000])

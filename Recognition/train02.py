@@ -18,7 +18,7 @@ class MyTrain:
         # Device
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         # Model
-        self.net = net.MyNet().to(self.device)
+        self.net = net.MyNet02().to(self.device)
         if not os.path.exists(cfg.PATH) or not os.path.exists(cfg.IMG):
             os.makedirs(cfg.PATH)
             os.makedirs(cfg.IMG)
@@ -32,19 +32,21 @@ class MyTrain:
         self.train = dataset.TRAIN
         self.test = dataset.TEST
         # Loss
-        self.centerloss = net.CenterLoss(cfg.CLS_NUM, cfg.FEATURE_NUM).to(self.device)
-        if os.path.exists(cfg.CLOSS):
-            self.centerloss.load_state_dict(torch.load(cfg.CLOSS))
-        self.clsloss = nn.CrossEntropyLoss()
+        self.arcsoftmax = net.ArcFace(cfg.CLS_NUM, cfg.FEATURE_NUM).to(self.device)
+        if os.path.exists(cfg.AFACE):
+            self.arcsoftmax.load_state_dict(torch.load(cfg.AFACE))
+        self.loss = nn.NLLLoss()
         # Optimize
         self.opt = optim.Adam(self.net.parameters())
-        self.opt_centerloss = optim.SGD(self.centerloss.parameters(), lr=0.5)
+        self.opt2 = optim.SGD(self.centerloss.parameters(), lr=0.1)
+        self.lr_step = optim.lr_scheduler.StepLR(self.opt2, step_size=50, gamma=0.3)
 
-    def run(self, log: str, lower_loss=1.0):
+    def run(self, log: str, lower_loss=6):
         with open(log, "a+") as f:
             # Configure Written
+            m, s = cfg.ARC[0]
             f.write("\n{}\n".format(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())))
-            f.write(">>> lambda: {}\n".format(cfg.LAMBDA))
+            f.write(">>> m: {} >>> s: {}\n".format(m, s))
             # Train
             for epoch in range(cfg.EPOCH):
                 f.write(">>> epoch: {}\n".format(epoch))
@@ -52,28 +54,26 @@ class MyTrain:
                 self.net.train()
                 for i, (x, t) in enumerate(self.train):
                     x, t = x.to(self.device), t.to(self.device)
-                    features, outputs = self.net(x)
-                    loss_center = self.centerloss(features, t)
-                    loss_cls = self.clsloss(outputs, t)
-                    loss = loss_cls+cfg.LAMBDA*loss_center
+                    features = self.net(x)
+                    outputs = self.arcsoftmax(features, m, s)
+                    loss = self.loss(torch.log(outputs), t)
                     # Backward
                     self.opt.zero_grad()
-                    self.opt_centerloss.zero_grad()
+                    self.opt2.zero_grad()
                     loss.backward()
+                    self.opt2.step()
                     self.opt.step()
-                    self.opt_centerloss.step()
                     print("epoch >>> {} >>> {}/{}".format(epoch, i, len(self.train)))
-
+                    # self.write.add_scalar("train >>> loss: ", loss.item(), i)
                 # Test
                 with torch.no_grad():
                     self.net.eval()
                     out, target, coordinate, Loss = [], [], [], []
                     for x_, t_ in self.test:
                         x_, t_ = x_.to(self.device), t_.to(self.device)
-                        features_, outputs_ = self.net(x_)
-                        loss_center_ = self.centerloss(features_, t_)
-                        loss_cls_ = self.clsloss(outputs_, t_)
-                        loss_ = loss_cls_ + cfg.LAMBDA * loss_center_
+                        features_ = self.net(x_)
+                        outputs_ = self.arcsoftmax(features_, m, s)
+                        loss_ = self.loss(torch.log(outputs_), t_)
 
                         out.extend(torch.softmax(outputs_, dim=-1))
                         target.extend(t_)
@@ -81,11 +81,12 @@ class MyTrain:
                         coordinate.extend(features_)
 
                     mean_loss = sum(Loss)/len(Loss)
+                    # self.write.add_scalar("test >>> loss: ", mean_loss, epoch)
                     if mean_loss < lower_loss:
                         lower_loss = mean_loss
                         f.write(">>> SAVE COMPLETE! LOWER_LOSS - {}\n".format(lower_loss))
                         torch.save(self.net.state_dict(), cfg.MODEL)
-                        torch.save(self.centerloss.state_dict(), cfg.CLOSS)
+                        torch.save(self.arcsoftmax.state_dict(), cfg.AFACE)
 
                     out = torch.stack(out).cpu()
                     coordinate, target = torch.stack(coordinate).cpu(), torch.stack(target).cpu()
@@ -96,14 +97,12 @@ class MyTrain:
                     for num in range(10):
                         plt.scatter(coordinate[target == num, 0], coordinate[target == num, 1], c=cfg.COLOR[num], marker=".")
                     plt.legend(["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"], loc="upper right")
-                    center = self.centerloss.center.data.cpu().numpy()
-                    plt.scatter(center[:, 0], center[:, 1], c=cfg.COLOR[10])
-                    plt.title("[epoch] - {} >>> [Accuracy] - {:.2f}%".format(epoch, accuracy*100), loc="left")
+                    plt.title("[epoch] - {}".format(epoch), loc="left")
                     plt.savefig("{}/pic{}.png".format(cfg.IMG, epoch))
 
                 f.flush()
 
 
 if __name__ == '__main__':
-    log = "./log/clog.txt"
+    log = "./log/alog.txt"
     MyTrain().run(log)

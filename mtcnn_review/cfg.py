@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 
 "Global Variables"
-PATH = "F:/mtcnn_v1"
+PATH = "F:/mtcnn_v1/train"
 EPOCH = 33333
 
 "iou to identify positive and part"
@@ -12,9 +12,9 @@ INTERVAL = {
 
 "size of pictures for net"
 NET = {
-        "pnet": 12,
-        "rnet": 24,
-        "onet": 48,
+        "pnet": [12, 2],
+        "rnet": [24, 4],
+        "onet": [48, 8],
         }
 
 "batch_size"

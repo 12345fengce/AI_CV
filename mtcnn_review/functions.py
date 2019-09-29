@@ -4,7 +4,8 @@ import cv2
 import torch
 import dataset
 import numpy as np
-from torch.nn import init
+import torch.nn.init as init
+import torchvision.transforms as tf
 
 
 def weights_init(m):
@@ -17,39 +18,40 @@ def weights_init(m):
         init.constant_(m.weight.data, 0.01)
 
 
-def draw(image: str, coordinate: tuple, landmark: tuple):
-    img = cv2.imread(image)
-    x1, y1, x2, y2 = coordinate
-    img = cv2.rectangle(img, (x1, y1), (x2, y2), (0, 0, 255), 1)
-    for i in range(len(landmark)):
-        if i % 2 != 0:
-            cv2.circle(img, (landmark[i-1], landmark[i]), 3, (0, 0, 0))
-    cv2.imshow("face", img)
-    cv2.waitKey(0)
-    cv2.destroyAllWindows()
+transform = tf.Compose([
+                        tf.ToTensor(),
+                        tf.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
+                        ])
 
 
-def iou(box, boxes, ismin=False):
-    """calculate the inter area between multi boxes
-            box: numpy.ndarray ndim=1
-            boxes: numpy.ndarray ndim=2"""
-    # 计算各自面积
-    box_area = (box[2] - box[0]) * (box[3] - box[1])
-    boxes_area = (boxes[:, 2] - boxes[:, 0]) * (boxes[:, 3] - boxes[:, 1])
-    # 计算重叠面积
-    x1 = np.maximum(box[0], boxes[:, 0])
-    y1 = np.maximum(box[1], boxes[:, 1])
-    x2 = np.minimum(box[2], boxes[:, 2])
-    y2 = np.minimum(box[3], boxes[:, 3])
-    side_1 = np.maximum(0, x2 - x1)
-    side_2 = np.maximum(0, y2 - y1)
-    inter_area = side_1 * side_2
-    # 计算IOU
-    if ismin:
-        IOU = inter_area / np.minimum(box_area, boxes_area)
-    else:
-        IOU = inter_area/(box_area + boxes_area - inter_area)
-    return IOU
+def nms(boxes, threshold=0.3, ismin=False):
+    keep = []
+    if len(boxes) == 0:
+        return torch.Tensor([])
+    _, indices = boxes[:, 0].sort()
+    boxes = boxes[indices]
+    while len(boxes) != 0:
+        box = boxes[-1]
+        keep.append(box)
+        boxes = boxes[:-1]
+        if len(boxes) == 0:
+            return torch.stack(keep)
+        "Iou"
+        _, x1, y1, x2, y2 = box
+        w, h = x2-x1, y2-y1
+        area = w*h
+        X1, Y1, X2, Y2 = boxes[:1], boxes[:2], boxes[:3], boxes[:4]
+        W, H = X2-X1, Y2-Y1
+        Area = W*H
+        __x1, __y1 = torch.max(x1, X1), torch.max(y1, Y1)
+        __x2, __y2 = torch.min(x2, X2), torch.max(y2, Y2)
+        __w, __h = __x2-__x1, __y2-__y1
+        __area = __w*__h
+        if ismin:
+            iou = __area/torch.min(area, Area)
+        else:
+            iou = _area/(area+Area-__area)
 
+        boxes = boxes[boxes[:, 0] < threshold]
 
-
+    return torch.stack(keep)

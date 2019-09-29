@@ -1,19 +1,20 @@
 # -*- coding:utf-8 -*-
+import cfg
 import torchvision
+from torch.utils import data
 import torchvision.transforms as tf
 
 
-# draw
-CLS = 10
-FEATURE = 2
-COLOR = {
-    0: "green", 1: "red", 2: "blue", 3: "black", 4: "purple", 5: "gray", 6: "gold", 7: "m", 8: "pink", 9: "peru"
-        }
+path = "F:/Mnist"
+transform = tf.Compose([
+                        tf.ToTensor(),
+                        tf.Normalize((0.5, ), (0.5, )),
+                        ])
 
+train_data = torchvision.datasets.MNIST(root=path, train=True, transform=transform, download=False)
+test_data = torchvision.datasets.MNIST(root=path, train=False, transform=transform, download=False)
 
-# download 
-PATH = "F:/Mnist"
-train_data = torchvision.datasets.MNIST(root=PATH, train=True, transform=tf.ToTensor(), download=False)
-test_data = torchvision.datasets.MNIST(root=PATH, train=False, transform=tf.ToTensor(), download=False)
+TRAIN = data.DataLoader(dataset=train_data, batch_size=cfg.BATCH, shuffle=True, drop_last=True)
+TEST = data.DataLoader(dataset=test_data, batch_size=cfg.BATCH, shuffle=True, drop_last=True)
 
 

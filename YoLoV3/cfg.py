@@ -1,6 +1,6 @@
 # -*- coding:utf-8 -*-
 "Global Variable"
-BATCH = 2
+BATCH = 3
 
 EPOCH = 33333
 
