@@ -2,27 +2,21 @@
 "Global Variables"
 BATCH = 512
 
-LAMBDA = 0.01
-
 CLS_NUM = 10
 
 EPOCH = 33333
 
 FEATURE_NUM = 2
 
-ARC = [0.5, 1]
+m, s = 0.5, 30
 
 IMG = "./img"
 
 PATH = "./params"
 
-CSHOW = "./runs/centerloss"
-
 ASHOW = "./runs/arcface"
 
 MODEL = "./params/module.pkl"
-
-CLOSS = "./params/closs.pkl"
 
 AFACE = "./params/aface.pkl"
 

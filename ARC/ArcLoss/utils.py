@@ -1,4 +1,5 @@
 # -*- coding:utf-8 -*-
+import os
 import imageio
 from torch.nn import init
 
@@ -13,12 +14,17 @@ def weights_init(m):
         init.constant_(m.weight.data, 0.01)
 
 
-def gif(path: str, lambd: int, fps: int):
+def gif(path: str, fps: int):
     gif_list = []
-    for i in range(121):
-        file = path+"/pic{}.png".format(i)
+    for file in os.listdir(path):
+        file = path+"/{}".format(file)
         gif_list.append(imageio.imread(file))
-    imageio.mimsave(path+"/lambda_{}.gif".format(lambd), gif_list, fps=fps)
+    imageio.mimsave(path+"/arc.gif", gif_list, fps=fps)
+
+
+if __name__ == '__main__':
+    path = "G:/Project/Code/ARC/ArcLoss/img"
+    gif(path, 10)
 
 
 
