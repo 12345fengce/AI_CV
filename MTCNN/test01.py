@@ -144,9 +144,9 @@ if __name__ == "__main__":
     p_path = "./params/pnet.pkl"
     r_path = "./params/rnet.pkl"
     o_path = "./params/onet.pkl"
-    i = 24
-    while i < 31:
-        test_img = "F:/MTCNN/test/{}.jpg".format(i)
+    i = 5
+    while i < 6:
+        test_img = "F:/mtcnn_v1/test/{}.jpg".format(i)
         print("\ntest - {} :".format(i+1))
         print("**************************************************")
         try:

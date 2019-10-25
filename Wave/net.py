@@ -9,6 +9,7 @@ class Convolution(nn.Module):
         self.conv = nn.Sequential(
                                     nn.Conv1d(in_channels, out_channels, kernel_size, stride, bias=False),
                                     nn.BatchNorm1d(out_channels),
+                                    nn.Dropout(0.5),
                                     nn.PReLU(),
                                     )
 
@@ -30,9 +31,11 @@ class MyNet(nn.Module):
         self.linear = nn.Sequential(
                                     nn.Linear(in_features=170*32, out_features=1024, bias=False),
                                     nn.BatchNorm1d(1024),
+                                    nn.Dropout(0.8),
                                     nn.PReLU(),
                                     nn.Linear(in_features=1024, out_features=128, bias=False),
                                     nn.BatchNorm1d(128),
+                                    nn.Dropout(0.8),
                                     nn.PReLU(),
                                     nn.Linear(in_features=128, out_features=10),
                                     )
@@ -44,32 +47,3 @@ class MyNet(nn.Module):
         return self.linear(y)
 
 
-# class WaveNet(nn.Module):
-#
-#     def __init__(self):
-#         super(WaveNet, self).__init__()
-#
-#         self.sub_net = nn.Sequential(
-#             nn.Conv1d(2, 16, 16, 8),
-#             nn.BatchNorm1d(16),
-#             nn.LeakyReLU(0.1),
-#             nn.Conv1d(16, 64, 8, 4),
-#             nn.BatchNorm1d(64),
-#             nn.LeakyReLU(0.1),
-#             nn.Conv1d(64, 128, 8, 4),
-#             nn.BatchNorm1d(128),
-#             nn.LeakyReLU(0.1),
-#             nn.Conv1d(128, 256, 8, 4),
-#             nn.BatchNorm1d(256),
-#             nn.LeakyReLU(0.1),
-#             nn.Conv1d(256, 512, 8, 4),
-#             nn.BatchNorm1d(512),
-#             nn.LeakyReLU(0.1),
-#             nn.Conv1d(512, 1024, 8, 4),
-#             nn.BatchNorm1d(1024),
-#             nn.LeakyReLU(0.1),
-#             nn.Conv1d(1024, 10, 4),
-#         )
-#
-#     def forward(self, x):
-#         return self.sub_net(x).squeeze(-1)

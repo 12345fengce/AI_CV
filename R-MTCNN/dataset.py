@@ -162,7 +162,7 @@ class MyData(data.Dataset):
         self.size = size
         self.database = []
         for type in ["positive", "part", "negative"]:
-            self.target = path+"/{}/{}.txt".format(size[0], type)
+            self.target = path+"/{}/{}.txt".format(size, type)
             with open(self.target, "r") as f:
                 if mode == "train":
                     self.database.extend(f.readlines()[:-10000])
@@ -189,17 +189,17 @@ class MyData(data.Dataset):
         return data, confi, offset, landmark
 
 
-ptrain = MyData("train", cfg.PATH, cfg.NET["pnet"])
-rtrain = MyData("train", cfg.PATH, cfg.NET["rnet"])
-otrain = MyData("train", cfg.PATH, cfg.NET["onet"])
+ptrain = MyData("train", cfg.PATH, cfg.NET["pnet"][0])
+rtrain = MyData("train", cfg.PATH, cfg.NET["rnet"][0])
+otrain = MyData("train", cfg.PATH, cfg.NET["onet"][0])
 
 P_TRAIN = data.DataLoader(ptrain, batch_size=cfg.BATCH["pnet"], shuffle=True, drop_last=True, num_workers=4)
 R_TRAIN = data.DataLoader(rtrain, batch_size=cfg.BATCH["rnet"], shuffle=True, drop_last=True, num_workers=4)
 O_TRAIN = data.DataLoader(otrain, batch_size=cfg.BATCH["onet"], shuffle=True, drop_last=True, num_workers=4)
 
-ptest = MyData("test", cfg.PATH, cfg.NET["pnet"])
-rtest = MyData("test", cfg.PATH, cfg.NET["rnet"])
-otest = MyData("test", cfg.PATH, cfg.NET["onet"])
+ptest = MyData("test", cfg.PATH, cfg.NET["pnet"][0])
+rtest = MyData("test", cfg.PATH, cfg.NET["rnet"][0])
+otest = MyData("test", cfg.PATH, cfg.NET["onet"][0])
 
 P_TEST = data.DataLoader(ptest, batch_size=cfg.TEST_BATCH, shuffle=True, drop_last=True)
 R_TEST = data.DataLoader(rtest, batch_size=cfg.TEST_BATCH, shuffle=True, drop_last=True)

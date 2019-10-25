@@ -141,9 +141,3 @@ class MyTrain:
         Hout, *_ = self.net(Hx)
         Hloss = self.Closs(Hout.view(-1, 1), Hlabel)
         return Hloss
-
-
-if __name__ == '__main__':
-    log = "./Plog.txt"
-    mytrain = MyTrain("P")
-    mytrain.run(log)

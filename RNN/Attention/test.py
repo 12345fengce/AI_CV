@@ -10,7 +10,7 @@ import torchvision.transforms as tf
 PATH = "F:/MTCNN/train/48/positive/"
 DEVICE = torch.device("cuda")
 validation = net.HighLight().to(DEVICE)
-validation.load_state_dict(torch.load("G:/Project/Code/RNN/Attention/params.pkl"))
+validation.load_state_dict(torch.load("G:/Project/Code/RNN/Attention/10_20.pkl"))
 validation.eval()
 for i in range(24):
     img_name = PATH+"{}.jpg".format(i)

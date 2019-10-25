@@ -50,9 +50,10 @@ class Test:
         self.pnet.eval()
         pboxes = torch.Tensor([]).to(self.device)
         image = Image.open(image)
+        "Scale"
+        scale = 1
         while min(image.size) > 12:
-            "Scale"
-            scale = 1
+            print(min(image.size))
             "Data"
             data = functions.transform(image).unsqueeze(0).to(self.device)
             "Net"
@@ -72,7 +73,7 @@ class Test:
             pboxes = torch.cat((pboxes, box), dim=0)
             "Pyramid"
             scale *= 0.707
-            image = image.resize((image.size[0], image.size[1]))
+            image = image.resize((int(image.size[0]*scale), int(image.size[1]*scale)))
         return functions.nms(pboxes)
 
     def ro_detect(self, prior, data, model):
@@ -107,5 +108,5 @@ class Test:
 
 
 if __name__ == '__main__':
-    image = "F:/mtcnn_v1/test/4.jpg"
+    image = "F:/mtcnn_v1/test/0.jpg"
     Test().detect(image)

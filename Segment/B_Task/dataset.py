@@ -3,51 +3,50 @@ import os
 import cfg
 import utils
 import torch
+import numpy as np
 import torch.nn as nn
 import PIL.Image as Image
 import torch.utils.data as data
 
 
 class MyData(data.Dataset):
-    def __init__(self, path):
+    def __init__(self, path, type):
         super(MyData, self).__init__()
         self.path = path
         self.database = []
-        for file in os.listdir(path+"/labels"):
-            if "regions" in file:
-                self.database.append(file)
+        self.label = []
+        for dir in os.listdir(path):
+            print(dir)
+            filepath = path+"/"+dir+"/"+type
+            for i, file in enumerate(os.listdir(filepath)):
+                if "png" in file:
+                    labelpath = filepath+"/"+file
+                    array = np.array(Image.open(labelpath))
+                    if np.sum(array) > 0:
+                        self.label.append(array)
+                        imgpath = filepath + "/" + os.listdir(filepath)[i - 1]
+                        print(utils.dcm2png(imgpath))
+                        self.database.append(utils.dcm2png(imgpath))
+                else:
+                    continue
 
     def __len__(self):
         return len(self.database)
 
     def __getitem__(self, index):
-        file = self.database[index]
-        imgname = file.split(".")[0]+".jpg"
-        imgpath = self.path+"/images/"+imgname
-        img = utils.transform(Image.open(imgpath))
-
-        labelfile = self.path+"/labels/"+file
-        with open(labelfile, "r") as f:
-            labellist = f.readlines()
-        label = []
-        for labelstr in labellist:
-            labelstr = labelstr.replace(" ", ",").replace("\n", "")
-            label.append(torch.tensor(eval(labelstr), dtype=torch.int8))
-        label = torch.stack(label, dim=0)
-
-        normalize = nn.AdaptiveAvgPool2d((cfg.SIZE[1], cfg.SIZE[0]))
-        _, h, w = img.size()
-        if w != cfg.SIZE[0] or h != cfg.SIZE[1]:
-            if w < h:
-                img = img.permute(0, 2, 1)
-                label = label.permute(1, 0)
-            img = normalize(img)
-            label = normalize(label.unsqueeze(dim=0).float())
-
-        return img, label.long().squeeze()
+        img = (torch.Tensor(self.database[index])/255-0.5)/0.5
+        label = torch.tensor(self.label[index].transpose(2, 0, 1))
+        return img, label
 
 
-TRAIN = data.DataLoader(dataset=MyData(cfg.PATH), batch_size=cfg.BATCH, shuffle=False, num_workers=4)
+if __name__ == '__main__':
+    path = "F:/Segment/B_task/data"
+    type = "arterial phase"
+    mydata = MyData(path, type)
+    img, label = mydata[0]
+    print(img.shape, label.shape)
+    print(img)
+    print(label)
 
 
 

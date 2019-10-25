@@ -1,7 +1,15 @@
 # -*- coding:utf-8 -*-
 import torch
+import SimpleITK as sitk
 import torch.nn.init as init
 import torchvision.transforms as tf
+
+
+def dcm2png(img):
+    """(W, H, C) → (C, H, W)"""
+    img = sitk.ReadImage(img)
+    array = sitk.GetArrayFromImage(img)
+    return array
 
 
 def transform(img):
@@ -39,3 +47,9 @@ def weights_init(m):
         init.constant_(m.weight.data, 1.0)
     elif classname.find("PReLU") != -1:
         init.constant_(m.weight.data, 0.01)
+
+
+if __name__ == '__main__':
+    path = "F:/Segment/B_task/data/1001/arterial phase/10001.dcm"
+    array = dcm2png(path)
+    print(array)

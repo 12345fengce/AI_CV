@@ -67,7 +67,7 @@ class Train:
 
 
 if __name__ == '__main__':
-    params = "G:/Project/Code/RNN/Attention/params.pkl"
+    params = "G:/Project/Code/RNN/Attention/10_20.pkl"
     mytrain = Train(params)
     mytrain.main()
 

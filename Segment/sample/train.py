@@ -30,7 +30,7 @@ class MyTrain:
         # Loss
         self.loss = nn.BCELoss(reduction='sum')
         # Optimize
-        self.opt = optim.Adam(self.net.parameters(), lr=1e-2)
+        self.opt = optim.SGD(self.net.parameters(), lr=1e-1)
 
     def run(self, log: str, lower_loss=17000):
         with open(log, "a+") as f:
@@ -54,7 +54,7 @@ class MyTrain:
                     print("epoch >>> {} >>> {}/{}".format(epoch, i, len(self.train)))
                 loss_mean = sum(loss_list)/len(loss_list)
                 f.write(">>> Loss: {}\n".format(loss_mean))
-                Save
+                # Save
                 if loss_mean < lower_loss:
                     lower_loss = loss_mean
                     f.write(">>> SAVE COMPLETE! LOWER_LOSS - {}\n".format(lower_loss))

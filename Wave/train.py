@@ -32,7 +32,7 @@ class MyTrain:
         # Optimize
         self.opt = optim.Adam(self.net.parameters())
 
-    def run(self, log: str, lower_loss=1):
+    def run(self, log: str, lower_loss=2):
         with open(log, "a+") as f:
             # Configure Written
             f.write("{}\n".format(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())))
@@ -52,17 +52,18 @@ class MyTrain:
 
                 self.net.eval()
                 with torch.no_grad():
-                    loss_item, accuracy_item = [], []
+                    loss_item, y_item, t_item = [], [], []
                     for x_, t_ in self.test:
                         x_, t_ = x_.to(self.device), t_.to(self.device)
+                        t_item.extend(t_)
                         output_ = self.net(x_)
+                        y_item.extend(output_)
                         loss_ = self.loss(output_, t_)
                         loss_item.append(loss_.item())
-                        accuracy = torch.mean((torch.argmax(output_, dim=-1) == t_).float())
-                        accuracy_item.append(accuracy)
+                    target, out = torch.stack(t_item), torch.stack(y_item)
+                    accuracy = torch.mean((torch.argmax(out, dim=-1) == target).float())
                     loss_mean = sum(loss_item)/len(loss_item)
-                    accuracy_mean = sum(accuracy_item)/len(accuracy_item)
-                    f.write(">>> Test Accuracy: {}\n".format(accuracy_mean))
+                    f.write(">>> Test Accuracy: {:.2f}%\n".format(accuracy*100))
                     # Save
                     if loss_mean < lower_loss:
                         lower_loss = loss_mean

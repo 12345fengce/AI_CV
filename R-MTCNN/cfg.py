@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 
 "Global Variables"
-PATH = "F:/mtcnn_v1/train"
+PATH = "F:/R-MTCNN/train"
 EPOCH = 33333
 
 "iou to identify positive and part"
